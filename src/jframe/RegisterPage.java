@@ -21,11 +21,19 @@ public class RegisterPage extends javax.swing.JFrame {
     
     //method insert user ke database
     public void insertRegisterDetails(){
+        if (cekDuplikasiUsers()) {
+        JOptionPane.showMessageDialog(this,
+            "Username sudah digunakan. Silakan pilih yang lain.",
+            "Username Duplikat",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+        
         String nama = text_username.getText();
         String pass = new String(text_password.getPassword());
         String email = text_email.getText();
         String nomorTelepon = text_nomorTelepon.getText();
-    // 1. Cek field king
+    // 1. Cek field
     if (nama.isEmpty() || pass.isEmpty() || email.isEmpty() || nomorTelepon.isEmpty()) {
         JOptionPane.showMessageDialog(this,
             "Semua field harus diisi!",
@@ -34,7 +42,7 @@ public class RegisterPage extends javax.swing.JFrame {
         return;
     }   
 
-    // 2. Cek: email king
+    // 2. Cek: email
     String gmailRegex = "^[A-Za-z0-9._%+-]+@gmail\\.com$";
     if (!email.matches(gmailRegex)) {
         JOptionPane.showMessageDialog(this,
@@ -45,7 +53,7 @@ public class RegisterPage extends javax.swing.JFrame {
     }
         try {
             Connection con = DBConnection.getConnection();
-            String query = "insert into users(namaPengguna,passwordPengguna,emailPengguna,nomorTeleponPengguna) values (?,?,?,?)";
+            String query = "INSERT INTO users(namaPengguna,passwordPengguna,emailPengguna,nomorTeleponPengguna) values (?,?,?,?)";
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, nama);
             statement.setString(2, pass);
@@ -54,12 +62,28 @@ public class RegisterPage extends javax.swing.JFrame {
             
             int updatedRowCount = statement.executeUpdate();
             if (updatedRowCount > 0) {
-                JOptionPane.showMessageDialog(this, "Data Pengguna Berhasil Ditambahkan!");
+                JOptionPane.showMessageDialog(this,"Registrasi berhasil!","Sukses",JOptionPane.INFORMATION_MESSAGE);
             }else {
-                JOptionPane.showMessageDialog(this, "Data Pengguna Gagal Ditambahkan!");
+                JOptionPane.showMessageDialog(this,"Terjadi kesalahan saat menyimpan data.","Error",JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
             System.out.println(e.getLocalizedMessage());
+        }
+    }
+    
+    public boolean cekDuplikasiUsers(){
+        String nama = text_username.getText();
+        try {
+            Connection con = DBConnection.getConnection();
+            String query = "SELECT * FROM users WHERE namaPengguna = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, nama);
+            ResultSet rs = statement.executeQuery();
+            
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false; 
         }
     }
 
@@ -96,9 +120,11 @@ public class RegisterPage extends javax.swing.JFrame {
         rSMaterialButtonCircle1 = new rojerusan.RSMaterialButtonCircle();
         rSMaterialButtonCircle2 = new rojerusan.RSMaterialButtonCircle();
         text_password = new rojerusan.RSPasswordTextPlaceHolder();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(239, 233, 226));
@@ -146,10 +172,15 @@ public class RegisterPage extends javax.swing.JFrame {
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 40, -1));
 
         jLabel7.setBackground(new java.awt.Color(240, 240, 240));
-        jLabel7.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 30)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 30)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Registrasi Pengguna");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 310, -1));
+        jLabel7.setText("X");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 20, -1));
 
         jLabel8.setBackground(new java.awt.Color(240, 240, 240));
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -254,9 +285,15 @@ public class RegisterPage extends javax.swing.JFrame {
         });
         jPanel2.add(text_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 305, 390, -1));
 
+        jLabel18.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel18.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 30)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Registrasi Pengguna");
+        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 310, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 0, 540, 830));
 
-        setSize(new java.awt.Dimension(1537, 836));
+        setSize(new java.awt.Dimension(1523, 828));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -271,6 +308,10 @@ public class RegisterPage extends javax.swing.JFrame {
     private void text_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_passwordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_text_passwordActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jLabel7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -317,6 +358,7 @@ public class RegisterPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
