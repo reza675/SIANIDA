@@ -11,8 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 
 /**
  *
@@ -23,7 +23,7 @@ public class LupaPassword {
     private static final String FROM_EMAIL = "sianidadev@gmail.com";
     private static final String EMAIL_PASSWORD = "qyxjcrxzeyegqnht";
     
-    public static void sendResetOTP(String email) {
+    public static void sendResetOTP(String email,JFrame currentFrame) {
         if (!isEmailRegistered(email)) {
             JOptionPane.showMessageDialog(null, 
                 "Email tidak terdaftar!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -49,7 +49,7 @@ public class LupaPassword {
             insertPs.executeUpdate();
             
             sendOTPEmail(email, otp);
-            verifyOTP(email);
+            verifyOTP(email, currentFrame);
             
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -103,7 +103,7 @@ public class LupaPassword {
         Transport.send(msg);
     }
     
-    private static void verifyOTP(String email) {
+    private static void verifyOTP(String email, JFrame currentFrame) {
         //Input OTP
         String userOTP = JOptionPane.showInputDialog(
             null, 
@@ -127,8 +127,8 @@ public class LupaPassword {
             ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
-                // OTP valid, tampilkan form reset password
-                resetPassword(email);
+                new LupaPasswordPage(email).setVisible(true);
+                currentFrame.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, 
                     "OTP tidak valid atau telah kadaluarsa!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -139,56 +139,4 @@ public class LupaPassword {
                 "Gagal verifikasi OTP!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private static void resetPassword(String email) {
-        // Dialog input password baru
-        JPasswordField passwordField = new JPasswordField();
-        JPasswordField confirmField = new JPasswordField();
-        
-        Object[] message = {
-            "Password Baru:", passwordField,
-            "Konfirmasi Password:", confirmField
-        };
-        
-        int option = JOptionPane.showConfirmDialog(
-            null, 
-            message, 
-            "Reset Password", 
-            JOptionPane.OK_CANCEL_OPTION
-        );
-        
-        if (option == JOptionPane.OK_OPTION) {
-            String newPassword = new String(passwordField.getPassword());
-            String confirmPassword = new String(confirmField.getPassword());
-            
-            if (!newPassword.equals(confirmPassword)) {
-                JOptionPane.showMessageDialog(null, 
-                    "Password tidak cocok!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            // Update password di database (sebaiknya di-hash)
-            try (Connection con = DBConnection.getConnection()) {
-                String sql = "UPDATE users SET passwordPengguna = ? WHERE emailPengguna = ?";
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.setString(1, newPassword); // Dalam produksi, gunakan hash password
-                ps.setString(2, email);
-                ps.executeUpdate();
-                
-                JOptionPane.showMessageDialog(null, "Password berhasil direset!");
-                
-                // Hapus OTP yang sudah digunakan
-                String deleteSql = "DELETE FROM otpverification WHERE email = ?";
-                PreparedStatement deletePs = con.prepareStatement(deleteSql);
-                deletePs.setString(1, email);
-                deletePs.executeUpdate();
-                
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, 
-                    "Gagal reset password!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
 }
-

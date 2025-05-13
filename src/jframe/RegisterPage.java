@@ -35,7 +35,7 @@ public class RegisterPage extends javax.swing.JFrame {
     public void insertRegisterDetails(){
         if (cekDuplikasiUsers()) {
         JOptionPane.showMessageDialog(this,
-            "Username sudah digunakan. Silakan pilih yang lain.",
+            "Username atau dan email sudah digunakan. Silakan pilih yang lain.",
             "Username Duplikat",
             JOptionPane.WARNING_MESSAGE);
         return;
@@ -97,11 +97,13 @@ public class RegisterPage extends javax.swing.JFrame {
     
     public boolean cekDuplikasiUsers(){
         String nama = text_username.getText();
+        String email = text_email.getText();
         try {
             Connection con = DBConnection.getConnection();
-            String query = "SELECT * FROM users WHERE namaPengguna = ?";
+            String query = "SELECT * FROM users WHERE namaPengguna = ? OR emailPengguna = ?";
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, nama);
+            statement.setString(2, email);
             ResultSet rs = statement.executeQuery();
             
             return rs.next();
@@ -148,7 +150,9 @@ public class RegisterPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
+        setMinimumSize(new java.awt.Dimension(1560, 830));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1560, 830));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(239, 233, 226));
@@ -315,7 +319,7 @@ public class RegisterPage extends javax.swing.JFrame {
         jLabel18.setText("Registrasi Pengguna");
         jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 310, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 0, 540, 830));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 0, 550, 830));
 
         setSize(new java.awt.Dimension(1523, 828));
         setLocationRelativeTo(null);

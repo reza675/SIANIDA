@@ -97,6 +97,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
+        setMinimumSize(new java.awt.Dimension(1560, 830));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -261,9 +262,9 @@ public class LoginPage extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 460, 80, 20));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 0, 540, 830));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 0, 560, 830));
 
-        setSize(new java.awt.Dimension(1523, 828));
+        setSize(new java.awt.Dimension(1522, 828));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -294,10 +295,10 @@ public class LoginPage extends javax.swing.JFrame {
         String emailInput = JOptionPane.showInputDialog(this,
         "Masukkan email terdaftar untuk reset password:",
         "Forgot Password", JOptionPane.QUESTION_MESSAGE);
-    if (emailInput != null && !emailInput.trim().isEmpty()) {
-        LupaPassword.sendResetOTP(emailInput.trim());
-        
-    }
+        if (emailInput != null && !emailInput.trim().isEmpty()) {
+            LupaPassword.sendResetOTP(emailInput.trim(),this);
+
+        }
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
