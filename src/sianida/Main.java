@@ -4,12 +4,12 @@
  */
 package sianida;
 
-import controllers.LoginController;
+import Controller.LoginController;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import models.UserDAO;
-import views.LoginPageView;
+import Model.User.UserDAO;
+import View.LoginPageView;
 
 /**
  *
