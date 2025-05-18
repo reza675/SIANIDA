@@ -62,7 +62,7 @@ public class LoginController {
                     if (user.getIdRole() == 1) {
                         new HomePageAdminView().setVisible(true);
                     } else if (user.getIdRole() == 2) {
-                        new HomePageUserView().setVisible(true);
+                        new HomePageUserView(username).setVisible(true);
                     }
                     view.dispose();
                 } else {
