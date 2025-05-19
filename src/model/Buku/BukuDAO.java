@@ -1,0 +1,172 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Model.Buku;
+
+import Model.DBConnection;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author ASUS
+ */
+public class BukuDAO {
+
+    //nampilin buku milik SIANIDA
+    public List<Buku> getAllBuku() {
+        List<Buku> list = new ArrayList<>();
+        String sql = "SELECT * FROM detailbuku";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new Buku(
+                        rs.getInt("idBuku"),
+                        rs.getString("namaBuku"),
+                        rs.getString("penulis"),
+                        rs.getInt("jumlah")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    //nampilinTotalBuku
+    public int countAllBuku() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM detailbuku";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+    public void recordBorrow(String username, int idBuku, int jumlah) throws SQLException {
+        if (jumlah <= 0) {
+            throw new SQLException("Jumlah peminjaman harus lebih dari 0.");
+        }
+        String getIdUserSQL = "SELECT id FROM users WHERE namaPengguna = ?";
+        String getStockSQL = "SELECT jumlah FROM detailbuku WHERE idBuku = ?";
+        String insertSQL = "INSERT INTO peminjamanbuku (id, idBuku, jumlah, tgl_pinjam) VALUES (?, ?, ?, NOW())";
+        String reduceStockSQL = "UPDATE detailbuku SET jumlah = jumlah - ? WHERE idBuku = ? AND jumlah >= ?";
+
+        try (Connection con = DBConnection.getConnection()) {
+            int idUser = -1;
+
+            // Ambil ID user
+            try (PreparedStatement ps = con.prepareStatement(getIdUserSQL)) {
+                ps.setString(1, username);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        idUser = rs.getInt("id");
+                    } else {
+                        throw new SQLException("Username tidak ditemukan.");
+                    }
+                }
+            }
+
+            // Ambil stok
+            int stokTersedia = 0;
+            try (PreparedStatement ps = con.prepareStatement(getStockSQL)) {
+                ps.setInt(1, idBuku);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        stokTersedia = rs.getInt("jumlah");
+                    } else {
+                        throw new SQLException("Buku tidak ditemukan.");
+                    }
+                }
+            }
+
+            // Cek stok
+            if (stokTersedia < jumlah) {
+                throw new SQLException("Stok tidak mencukupi untuk peminjaman. Stok tersedia: " + stokTersedia);
+            }
+
+            // Simpan peminjaman
+            try (PreparedStatement ps = con.prepareStatement(insertSQL)) {
+                ps.setInt(1, idUser);
+                ps.setInt(2, idBuku);
+                ps.setInt(3, jumlah);
+                ps.executeUpdate();
+            }
+
+            // Kurangi stok jika masih cukup (cek lagi di SQL untuk concurrency safety)
+            try (PreparedStatement ps = con.prepareStatement(reduceStockSQL)) {
+                ps.setInt(1, jumlah);
+                ps.setInt(2, idBuku);
+                ps.setInt(3, jumlah);
+                int rowsUpdated = ps.executeUpdate();
+                if (rowsUpdated == 0) {
+                    con.rollback(); // Batalkan jika stok tidak cukup (balapan data)
+                    throw new SQLException("Gagal mengurangi stok. Mungkin stok sudah tidak cukup karena transaksi lain.");
+                }
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+
+    //nampilin buku yang dipinjem user
+    public List<Buku> getUserBooks(String username) {
+        List<Buku> list = new ArrayList<>();
+
+        String getIdUserSQL = "SELECT id FROM users WHERE namaPengguna = ?";
+        // kita join peminjamanbuku ke buku untuk dapat detail lengkap
+        String sql = "SELECT b.idBuku, b.namaBuku, b.penulis, p.jumlah AS jumlahPinjam, p.tgl_pinjam AS tglPinjam, p.tgl_kembali AS tglKembali FROM peminjamanbuku p JOIN detailbuku b ON p.idBuku = b.idBuku WHERE p.id = ?";
+
+        try (Connection con = DBConnection.getConnection()) {
+            // 1) Cari idUser
+            int idUser;
+            try (PreparedStatement ps1 = con.prepareStatement(getIdUserSQL)) {
+                ps1.setString(1, username);
+                try (ResultSet rs1 = ps1.executeQuery()) {
+                    if (!rs1.next()) {
+                        // username tidak ada
+                        throw new SQLException("Username tidak ditemukan: " + username);
+                    }
+                    idUser = rs1.getInt("id");
+                }
+            }
+
+            // 2) Ambil semua buku yang dipinjam user tersebut
+            try (PreparedStatement ps2 = con.prepareStatement(sql)) {
+                ps2.setInt(1, idUser);
+                try (ResultSet rs2 = ps2.executeQuery()) {
+                    while (rs2.next()) {
+                        Buku b = new Buku(
+                                rs2.getInt("idBuku"),
+                                rs2.getString("namaBuku"),
+                                rs2.getString("penulis"),
+                                rs2.getInt("jumlahPinjam"),
+                                rs2.getDate("tglPinjam"),
+                                rs2.getDate("tglKembali")
+                        );
+                        list.add(b);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            // kalau perlu, ganti dengan view.showError(...) atau logging
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    //nampilin Total Buku diPinjam
+    public int countAllBukuPinjaman() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM peminjamanbuku";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+}

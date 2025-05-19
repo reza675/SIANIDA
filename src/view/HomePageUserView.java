@@ -4,11 +4,18 @@
  */
 package View;
 
+import Controller.HomePageUserController;
+import Model.Buku.Buku;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PieLabelLinkStyle;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -19,42 +26,80 @@ import org.jfree.data.general.DefaultPieDataset;
 public class HomePageUserView extends javax.swing.JFrame {
 
     private String username;
+    private HomePageUserController controller;
+
     public HomePageUserView(String username) {
         this.username = username;
         initComponents();
         customizeView();
-        showPieChart();
+
+        controller = new HomePageUserController(this, username);
+        controller.loadTable();
+        hitungBukuSianida();
+        hitungBukuPinjaman();
+        List<Buku> data = controller.fetchAllBuku();
+        showPieChart(data);
     }
+
     private void customizeView() {
         user.setText(this.username);
     }
-    public void showPieChart(){
-        
-        //create dataset
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "IPhone 5s" , new Double( 20 ) );  
-      barDataset.setValue( "SamSung Grand" , new Double( 20 ) );   
-      barDataset.setValue( "MotoG" , new Double( 40 ) );    
-      barDataset.setValue( "Nokia Lumia" , new Double( 10 ) );  
-      
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("mobile sales",barDataset, false,true,false);//explain
-      
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
-       piePlot.setSectionPaint("IPhone 5s", new Color(255,255,102));
-        piePlot.setSectionPaint("SamSung Grand", new Color(102,255,102));
-        piePlot.setSectionPaint("MotoG", new Color(255,102,153));
-        piePlot.setSectionPaint("Nokia Lumia", new Color(0,204,204));
-      
-       
-        piePlot.setBackgroundPaint(Color.white);
-        
-        //create chartPanel to display chart(graph)
-        ChartPanel barChartPanel = new ChartPanel(piechart);
+
+    public DefaultTableModel getTblModel() {
+        return (DefaultTableModel) detailSianida.getModel();
+    }
+
+    public void hitungBukuSianida() {
+        int totalBuku = controller.getTotalBuku();
+        bukuSIANIDA.setText(String.valueOf(totalBuku));
+    }
+     public void hitungBukuPinjaman() {
+        int totalBukuPinjaman = controller.getTotalBukuPinjaman();
+        bukuPinjaman.setText(String.valueOf(totalBukuPinjaman));
+    }   
+
+    public void showError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showPieChart(List<Buku> daftarBuku) {
+        // 1. Bangun dataset
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        for (Buku b : daftarBuku) {
+            if (b.getJumlah() > 0) {
+                dataset.setValue(b.getNamaBuku(), b.getJumlah());
+            }
+        }
+        // 2. Buat chart
+        JFreeChart pieChart = ChartFactory.createPieChart(
+            "Diagram Buku SIANIDA", 
+            dataset,
+            true, 
+            true,   
+            false 
+        );
+        // 3. Kustomisasi plot agar label di luar irisan
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+
+        // format: Nama : Jumlah (Persen)
+        plot.setSimpleLabels(false);
+        plot.setLabelGenerator(
+            new StandardPieSectionLabelGenerator("{0} : {1} ({2})")
+        );
+        plot.setLabelLinkStyle(PieLabelLinkStyle.CUBIC_CURVE);
+        plot.setLabelLinkMargin(0.05);
+        plot.setLabelGap(0.01);
+        plot.setLabelBackgroundPaint(new Color(255,255,255,200)); 
+        plot.setLabelOutlinePaint(null);
+        plot.setLabelShadowPaint(null);
+        plot.setStartAngle(360);
+        plot.setDirection(org.jfree.util.Rotation.CLOCKWISE);
+
+        // 4. Tampilkan di panelSwing
+        ChartPanel chartPanel = new ChartPanel(pieChart);
         panelPieChart.removeAll();
-        panelPieChart.add(barChartPanel, BorderLayout.CENTER);
+        panelPieChart.add(chartPanel, BorderLayout.CENTER);
         panelPieChart.validate();
     }
 
@@ -93,13 +138,13 @@ public class HomePageUserView extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        bukuSIANIDA = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        bukuPinjaman = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        rSTableMetro1 = new rojeru_san.complementos.RSTableMetro();
+        detailSianida = new rojeru_san.complementos.RSTableMetro();
         jLabel17 = new javax.swing.JLabel();
         panelPieChart = new javax.swing.JPanel();
 
@@ -190,6 +235,11 @@ public class HomePageUserView extends javax.swing.JFrame {
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 240, 30));
 
         jPanel7.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
@@ -212,12 +262,22 @@ public class HomePageUserView extends javax.swing.JFrame {
         jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 340, 60));
 
         jPanel8.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel10.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Books_26px.png"))); // NOI18N
         jLabel10.setText("   Pinjam Buku");
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
         jPanel8.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 170, 30));
 
         jPanel3.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 340, 60));
@@ -253,18 +313,18 @@ public class HomePageUserView extends javax.swing.JFrame {
         jPanel12.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
-        jLabel13.setText("10");
-        jPanel12.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 140, -1));
+        bukuSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        bukuSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
+        bukuSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        bukuSIANIDA.setText("10");
+        jPanel12.add(bukuSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 140, -1));
 
         jPanel11.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 260, 140));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setText("Detail Buku SIANIDA");
-        jPanel11.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, -1, -1));
+        jPanel11.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
@@ -275,39 +335,44 @@ public class HomePageUserView extends javax.swing.JFrame {
         jPanel13.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
         jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel15.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-books-50.png"))); // NOI18N
-        jLabel15.setText("10");
-        jPanel13.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 140, -1));
+        bukuPinjaman.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        bukuPinjaman.setForeground(new java.awt.Color(102, 102, 102));
+        bukuPinjaman.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-books-50.png"))); // NOI18N
+        bukuPinjaman.setText(" 10");
+        jPanel13.add(bukuPinjaman, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 140, -1));
 
         jPanel11.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, 260, 140));
 
-        rSTableMetro1.setModel(new javax.swing.table.DefaultTableModel(
+        detailSianida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "ABC", "A", "qe"},
-                {null, null, "", null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID Buku", "Nama Buku", "Penulis", "Jumlah"
             }
         ));
-        rSTableMetro1.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
-        rSTableMetro1.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        rSTableMetro1.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        rSTableMetro1.setColorSelBackgound(new java.awt.Color(255, 255, 255));
-        rSTableMetro1.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
-        rSTableMetro1.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        rSTableMetro1.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        rSTableMetro1.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        rSTableMetro1.setRowHeight(40);
-        jScrollPane1.setViewportView(rSTableMetro1);
+        detailSianida.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
+        detailSianida.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
+        detailSianida.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        detailSianida.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        detailSianida.setColorSelBackgound(new java.awt.Color(235, 206, 148));
+        detailSianida.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
+        detailSianida.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        detailSianida.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        detailSianida.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
+        detailSianida.setRowHeight(40);
+        detailSianida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                detailSianidaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(detailSianida);
+        if (detailSianida.getColumnModel().getColumnCount() > 0) {
+            detailSianida.getColumnModel().getColumn(0).setMinWidth(100);
+            detailSianida.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
-        jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 530, 300));
+        jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 660, 300));
 
         jLabel17.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(102, 102, 102));
@@ -327,6 +392,26 @@ public class HomePageUserView extends javax.swing.JFrame {
     private void jLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMouseClicked
         System.exit(0);
     }//GEN-LAST:event_jLabelMouseClicked
+
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+        PinjamBukuUserView pinjamBuku = new PinjamBukuUserView(username);
+        pinjamBuku.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel8MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+
+    }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void detailSianidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detailSianidaMouseClicked
+
+    }//GEN-LAST:event_detailSianidaMouseClicked
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        BukuUserView bukuUser = new BukuUserView(username);
+        bukuUser.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -364,14 +449,15 @@ public class HomePageUserView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel bukuPinjaman;
+    private javax.swing.JLabel bukuSIANIDA;
+    private rojeru_san.complementos.RSTableMetro detailSianida;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -397,7 +483,6 @@ public class HomePageUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelPieChart;
-    private rojeru_san.complementos.RSTableMetro rSTableMetro1;
     private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }
