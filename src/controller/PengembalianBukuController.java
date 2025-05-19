@@ -6,7 +6,6 @@ package Controller;
 
 import Model.Buku.Buku;
 import Model.Buku.BukuDAO;
-import View.BukuUserView;
 import View.PengembalianBukuUserView;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,18 +15,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ASUS
  */
-public class BukuUserController {
-
+public class PengembalianBukuController {
     private BukuDAO dao;
-    private BukuUserView view;
+    private PengembalianBukuUserView view;
     private String username;
-
-    public BukuUserController(BukuUserView view, String username) {
+    public PengembalianBukuController(PengembalianBukuUserView view, String username) {
         this.dao = new BukuDAO();
         this.view = view;
         this.username = username;
     }
-
     public void loadTable() {
         DefaultTableModel tableModel = (DefaultTableModel) view.getTblModel();
         tableModel.setRowCount(0);
@@ -39,5 +35,13 @@ public class BukuUserController {
             tableModel.addRow(row);
         }
     }
-    
+    public void pengembalianBuku(int idBuku, String nama, String penulis, int jumlah) {
+        try {
+            dao.returnBook(username, idBuku, jumlah);  
+            loadTable();
+            view.showMessage("Berhasil mengembalikan buku!");
+        } catch (SQLException ex) {
+            view.showError("Gagal mengembalikan buku: " + ex.getMessage());
+        }
+    }
 }

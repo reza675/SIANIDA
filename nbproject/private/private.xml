@@ -4,18 +4,26 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Sianida/Main.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/PengembalianBukuController.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/HomePageUserView.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/Buku/BukuDAO.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/DBConnection.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/LoginController.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/BukuUserView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/OTP/OTPVerification.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/LupaPasswordController.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/RegisterController.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/EmailUtil.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/OTP/OTPDAO.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/PengembalianBukuUserView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/LoginPageView.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/HomePageUserController.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/PinjamBukuController.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/Buku/Buku.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/RegisterPageView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/PinjamBukuUserView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/HomePageAdminView.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/BukuUserController.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/LupaPasswordPageView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/User/UserDAO.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/User/User.java</file>

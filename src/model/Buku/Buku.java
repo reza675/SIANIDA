@@ -19,6 +19,7 @@ private int idBuku;
     private int jumlah;
     private Date tglPinjam;
     private Date tglKembali;
+    private Date tglPengembalian;
 
     //buat minjem buku
     public Buku (int idBuku, String namaBuku, String penulis, int jumlah) {
@@ -27,13 +28,16 @@ private int idBuku;
         this.penulis = penulis;
         this.jumlah = jumlah;
     }
-    public Buku(int idBuku, String namaBuku, String penulis,int jumlah, Date tglPinjam, Date tglKembali) {
+
+    
+    public Buku(int idBuku, String namaBuku, String penulis,int jumlah, Date tglPinjam, Date tglKembali,Date tglPengembalian) {
         this.idBuku = idBuku;
         this.namaBuku = namaBuku;
         this.penulis = penulis;
         this.jumlah = jumlah;
         this.tglPinjam = tglPinjam;
         this.tglKembali = tglKembali;
+        this.tglPengembalian = tglPengembalian;
     }
     
     public int getIdBuku() {
@@ -81,6 +85,13 @@ private int idBuku;
 
     public void setTglKembali(Date tglKembali) {
         this.tglKembali = tglKembali;
+    }
+    public Date getTglPengembalian() {
+        return tglPengembalian;
+    }
+
+    public void setTglPengembalian(Date tglPengembalian) {
+        this.tglPengembalian = tglPengembalian;
     }
     
     

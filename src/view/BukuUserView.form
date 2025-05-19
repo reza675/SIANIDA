@@ -199,7 +199,7 @@
                     <Column editable="true" title="Penulis" type="java.lang.Object"/>
                     <Column editable="true" title="Jumlah" type="java.lang.Object"/>
                     <Column editable="true" title="Tanggal Pinjam" type="java.lang.Object"/>
-                    <Column editable="true" title="Tanggal Pengembalian" type="java.lang.Object"/>
+                    <Column editable="true" title="Jatuh Tempo" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="colorBackgoundHead" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -234,7 +234,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="150" minWidth="150" prefWidth="-1" resizable="true">
+                    <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

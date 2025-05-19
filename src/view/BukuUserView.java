@@ -112,7 +112,7 @@ public class BukuUserView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Buku", "Nama Buku", "Penulis", "Jumlah", "Tanggal Pinjam", "Tanggal Pengembalian"
+                "ID Buku", "Nama Buku", "Penulis", "Jumlah", "Tanggal Pinjam", "Jatuh Tempo"
             }
         ));
         tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
@@ -134,8 +134,8 @@ public class BukuUserView extends javax.swing.JFrame {
         if (tbl_detailBuku.getColumnModel().getColumnCount() > 0) {
             tbl_detailBuku.getColumnModel().getColumn(0).setMinWidth(100);
             tbl_detailBuku.getColumnModel().getColumn(0).setMaxWidth(100);
-            tbl_detailBuku.getColumnModel().getColumn(3).setMinWidth(150);
-            tbl_detailBuku.getColumnModel().getColumn(3).setMaxWidth(150);
+            tbl_detailBuku.getColumnModel().getColumn(3).setMinWidth(100);
+            tbl_detailBuku.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 1180, 520));
