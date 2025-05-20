@@ -4,7 +4,6 @@
  */
 package View;
 
-import Controller.BukuUserController;
 import Controller.PengembalianBukuController;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -272,7 +271,7 @@ public class PengembalianBukuUserView extends javax.swing.JFrame {
         tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
         tbl_detailBuku.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
         tbl_detailBuku.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        tbl_detailBuku.setColorFilasForeground2(new java.awt.Color(162, 132, 94));
+        tbl_detailBuku.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
         tbl_detailBuku.setColorSelBackgound(new java.awt.Color(235, 206, 148));
         tbl_detailBuku.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
         tbl_detailBuku.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
