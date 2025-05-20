@@ -6,6 +6,7 @@ package View;
 
 import javax.swing.JOptionPane;
 import Controller.LoginController;
+import Model.User.UserDAO;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
@@ -23,6 +24,7 @@ public class LoginPageView extends javax.swing.JFrame {
      */
     public LoginPageView() {
         initComponents();
+        controller = new LoginController(this, new UserDAO());
     }
 
     public String getUsername() {
@@ -34,25 +36,6 @@ public class LoginPageView extends javax.swing.JFrame {
     }
 
     // Methods to register listeners
-    public void addLoginButtonListener(ActionListener listener) {
-        rSMaterialButtonCircle1.addActionListener(listener);
-    }
-
-    public void addResetButtonListener(ActionListener listener) {
-        rSMaterialButtonCircle2.addActionListener(listener);
-    }
-
-    public void addExitButtonListener(MouseListener listener) {
-        jLabel7.addMouseListener(listener);
-    }
-
-    public void addForgotPasswordListener(MouseListener listener) {
-        jLabel10.addMouseListener(listener);
-    }
-
-    public void addRegisterLinkListener(MouseListener listener) {
-        jLabel15.addMouseListener(listener);
-    }
 
     // Display message methods
     public void showErrorMessage(String message) {
@@ -285,12 +268,8 @@ public class LoginPageView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-
-    }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
-
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
-
+        controller.doReset();
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     private void text_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_passwordActionPerformed
@@ -298,7 +277,7 @@ public class LoginPageView extends javax.swing.JFrame {
     }//GEN-LAST:event_text_passwordActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-
+        System.exit(0);
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void text_usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_usernameFocusLost
@@ -306,12 +285,16 @@ public class LoginPageView extends javax.swing.JFrame {
     }//GEN-LAST:event_text_usernameFocusLost
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-
+        controller.doForgotPassword();
     }//GEN-LAST:event_jLabel10MouseClicked
 
     private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
-
+        controller.doRegister();
     }//GEN-LAST:event_jLabel15MouseClicked
+
+    private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
+        controller.doLogin();
+    }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,10 +329,6 @@ public class LoginPageView extends javax.swing.JFrame {
             @Override
             public void run() {
                 LoginPageView view = new LoginPageView();
-                Model.User.UserDAO userDAO = new Model.User.UserDAO(); 
-                LoginController controller = new LoginController(view,userDAO);
-                
-
                 view.setVisible(true);
             }
         });

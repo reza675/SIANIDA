@@ -26,6 +26,7 @@ public class User {
         this.nomorTelepon = nomorTeleponPengguna;
         this.idRole = idRole;
     }
+
     //buat register
     public User(String namaPengguna, String passwordPengguna, String emailPengguna, String nomorTeleponPengguna) {
         this.idUser = 0; //placeholder doang
@@ -34,6 +35,14 @@ public class User {
         this.email = emailPengguna;
         this.nomorTelepon = nomorTeleponPengguna;
         this.idRole = 2;
+    }
+    //buat akun user
+    public User(int idUser, String namaPengguna, String passwordPengguna, String emailPengguna, String nomorTeleponPengguna) {
+        this.idUser = idUser;
+        this.namaPengguna = namaPengguna;
+        this.passwordPengguna = passwordPengguna;
+        this.email = emailPengguna;
+        this.nomorTelepon = nomorTeleponPengguna;
     }
 
     public int getIdUser() {

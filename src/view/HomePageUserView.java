@@ -199,7 +199,7 @@ public class HomePageUserView extends javax.swing.JFrame {
         user.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 20)); // NOI18N
         user.setForeground(new java.awt.Color(255, 255, 255));
         user.setText("User");
-        jPanel1.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 23, 170, -1));
+        jPanel1.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 22, 170, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1523, 70));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 132, 155, -1));
@@ -251,6 +251,11 @@ public class HomePageUserView extends javax.swing.JFrame {
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 340, 60));
 
         jPanel6.setBackground(new java.awt.Color(162, 132, 94));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
@@ -434,6 +439,12 @@ public class HomePageUserView extends javax.swing.JFrame {
         akunUser.setVisible(true);
         dispose();
     }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        LoginPageView loginPage = new LoginPageView();
+        loginPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel6MouseClicked
 
     /**
      * @param args the command line arguments

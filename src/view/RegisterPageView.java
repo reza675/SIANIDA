@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
-import Controller.LoginController;
 import Controller.RegisterController;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -17,23 +16,11 @@ import Model.User.UserDAO;
  */
 public class RegisterPageView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegisterPage
-     */
+    private RegisterController controller;
     public RegisterPageView() {
-
         initComponents();
+        controller = new RegisterController(this, new UserDAO());
     }
-
-    //method buat ke loginpage
-    public void goToLogin() {
-        LoginPageView loginview = new LoginPageView();
-        UserDAO userDAO = new UserDAO();
-        new LoginController (loginview,userDAO);
-        loginview.setVisible(true);
-        
-    }
-
     public String getUsername() {
         return text_username.getText();
     }
@@ -60,18 +47,6 @@ public class RegisterPageView extends javax.swing.JFrame {
 
     public void showWarning(String msg, String title) {
         JOptionPane.showMessageDialog(this, msg, title, JOptionPane.WARNING_MESSAGE);
-    }
-
-    public void addRegisterButtonListener(ActionListener listener) {
-        rSMaterialButtonCircle2.addActionListener(listener); 
-    }
-
-    public void addLoginLinkListener(ActionListener listener) {
-        rSMaterialButtonCircle1.addActionListener(listener);
-    }
-
-    public void addExitListener(MouseListener listener) {
-        jLabel7.addMouseListener(listener);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -285,11 +260,14 @@ public class RegisterPageView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-
+        LoginPageView loginPage = new LoginPageView();
+        loginPage.setVisible(true);
+        dispose();
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
-
+        controller.doRegister();
+        
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     private void text_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_passwordActionPerformed
@@ -297,7 +275,7 @@ public class RegisterPageView extends javax.swing.JFrame {
     }//GEN-LAST:event_text_passwordActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-
+        System.exit(0);
     }//GEN-LAST:event_jLabel7MouseClicked
 
     /**
@@ -331,8 +309,6 @@ public class RegisterPageView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                RegisterPageView view = new RegisterPageView();
-               UserDAO userDAO = new UserDAO();
-               RegisterController controller = new RegisterController(view,userDAO); 
                view.setVisible(true);
                
             }

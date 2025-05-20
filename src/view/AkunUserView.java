@@ -4,6 +4,8 @@
  */
 package View;
 
+import Controller.AkunUserController;
+
 /**
  *
  * @author ASUS
@@ -11,11 +13,33 @@ package View;
 public class AkunUserView extends javax.swing.JFrame {
 
     private String username;
+    private AkunUserController controller;
+
     public AkunUserView(String username) {
         this.username = username;
         initComponents();
+        controller = new AkunUserController(this, username);
+    }
+    
+    public javax.swing.JLabel getTextUsername() {
+        return text_username;
     }
 
+    public rojerusan.RSPasswordTextPlaceHolder getTextPassword() {
+        return text_password;
+    }
+
+    public app.bolivia.swing.JCTextField getTextEmail() {
+        return text_email;
+    }
+
+    public app.bolivia.swing.JCTextField getTextNomorTelepon() {
+        return text_nomorTelepon;
+    }
+
+    public rojerusan.RSMaterialButtonRectangle getUpdateButton() {
+        return updateButton;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,6 +49,8 @@ public class AkunUserView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rSMaterialButtonRectangleBeanInfo1 = new rojerusan.RSMaterialButtonRectangleBeanInfo();
+        rSLabelVerticalDBeanInfo1 = new rojerusan.RSLabelVerticalDBeanInfo();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -37,7 +63,6 @@ public class AkunUserView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        text_username = new app.bolivia.swing.JCTextField();
         jLabel9 = new javax.swing.JLabel();
         text_password = new rojerusan.RSPasswordTextPlaceHolder();
         jLabel12 = new javax.swing.JLabel();
@@ -48,6 +73,9 @@ public class AkunUserView extends javax.swing.JFrame {
         text_nomorTelepon = new app.bolivia.swing.JCTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        updateButton = new rojerusan.RSMaterialButtonRectangle();
+        text_username = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -130,13 +158,7 @@ public class AkunUserView extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Username");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 110, 30));
-
-        text_username.setBackground(new java.awt.Color(200, 172, 144));
-        text_username.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_username.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        text_username.setPlaceholder("Masukkan nama pengguna...");
-        jPanel3.add(text_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 410, 50));
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 110, 30));
 
         jLabel9.setBackground(new java.awt.Color(240, 240, 240));
         jLabel9.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -147,7 +169,7 @@ public class AkunUserView extends javax.swing.JFrame {
         text_password.setBackground(new java.awt.Color(200, 172, 144));
         text_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         text_password.setForeground(new java.awt.Color(51, 51, 51));
-        text_password.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        text_password.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         text_password.setPhColor(new java.awt.Color(0, 0, 0));
         text_password.setPlaceholder("Masukkan password...");
         text_password.addActionListener(new java.awt.event.ActionListener() {
@@ -171,8 +193,13 @@ public class AkunUserView extends javax.swing.JFrame {
 
         text_email.setBackground(new java.awt.Color(200, 172, 144));
         text_email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_email.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        text_email.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         text_email.setPlaceholder("Masukkan email...");
+        text_email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_emailActionPerformed(evt);
+            }
+        });
         jPanel3.add(text_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 260, 410, 50));
 
         jLabel14.setBackground(new java.awt.Color(240, 240, 240));
@@ -189,8 +216,13 @@ public class AkunUserView extends javax.swing.JFrame {
 
         text_nomorTelepon.setBackground(new java.awt.Color(200, 172, 144));
         text_nomorTelepon.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_nomorTelepon.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        text_nomorTelepon.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         text_nomorTelepon.setPlaceholder("Masukkan nomor telepon...");
+        text_nomorTelepon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_nomorTeleponActionPerformed(evt);
+            }
+        });
         jPanel3.add(text_nomorTelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 370, 410, 50));
 
         jLabel16.setBackground(new java.awt.Color(240, 240, 240));
@@ -204,6 +236,25 @@ public class AkunUserView extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarIcons/icons8_Google_Mobile_50px.png"))); // NOI18N
         jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, 70, 60));
+
+        updateButton.setBackground(new java.awt.Color(150, 99, 31));
+        updateButton.setText("UPDATE AKUN");
+        updateButton.setFont(new java.awt.Font("Roboto Medium", 1, 18)); // NOI18N
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 480, 210, -1));
+
+        text_username.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        text_username.setForeground(new java.awt.Color(51, 51, 51));
+        text_username.setText("User");
+        jPanel3.add(text_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 410, 30));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 115, 410, 2));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, 680, 570));
 
@@ -234,6 +285,18 @@ public class AkunUserView extends javax.swing.JFrame {
     private void text_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_passwordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_text_passwordActionPerformed
+
+    private void text_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_emailActionPerformed
+
+    private void text_nomorTeleponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_nomorTeleponActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_nomorTeleponActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        controller.onUpdate();
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,12 +350,16 @@ public class AkunUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private rojerusan.RSLabelVerticalDBeanInfo rSLabelVerticalDBeanInfo1;
+    private rojerusan.RSMaterialButtonRectangleBeanInfo rSMaterialButtonRectangleBeanInfo1;
     private app.bolivia.swing.JCTextField text_email;
     private app.bolivia.swing.JCTextField text_nomorTelepon;
     private rojerusan.RSPasswordTextPlaceHolder text_password;
-    private app.bolivia.swing.JCTextField text_username;
+    private javax.swing.JLabel text_username;
+    private rojerusan.RSMaterialButtonRectangle updateButton;
     // End of variables declaration//GEN-END:variables
 }

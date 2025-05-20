@@ -5,129 +5,81 @@
 package Controller;
 
 import Model.User.User;
-import java.awt.event.*;
-import javax.swing.JOptionPane;
 import Model.User.UserDAO;
 import View.HomePageAdminView;
 import View.HomePageUserView;
 import View.LoginPageView;
 import View.LupaPasswordPageView;
 import View.RegisterPageView;
-//import views.HomePageView;
-//import util.LupaPassword;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author ASUS
- */
 public class LoginController {
 
-    private LoginPageView view;
-    private UserDAO userDAO;
+    private final LoginPageView view;
+    private final UserDAO userDAO;
 
     public LoginController(LoginPageView view, UserDAO userDAO) {
         this.view = view;
         this.userDAO = userDAO;
-
-        //login event listeners
-        this.view.addLoginButtonListener(new LoginButtonListener());
-        this.view.addResetButtonListener(new ResetButtonListener());
-        this.view.addExitButtonListener(new ExitButtonListener());
-        this.view.addForgotPasswordListener(new ForgotPasswordListener());
-        this.view.addRegisterLinkListener(new RegisterLinkListener());
     }
 
-    // validasi login
-    private boolean validateLogin() {
-        String username = view.getUsername();
-        String password = view.getPassword();
-
-        if (username.isEmpty() || password.isEmpty()) {
+    public boolean validateLogin() {
+        if (view.getUsername().isEmpty() || view.getPassword().isEmpty()) {
             view.showWarningMessage("Semua field harus diisi!", "Data Belum Lengkap");
             return false;
         }
         return true;
     }
 
-    // Action listeners as inner classes
-    class LoginButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (validateLogin()) {
-                String username = view.getUsername();
-                String password = view.getPassword();
-
-                User user = userDAO.verifikasiUsers(username, password);
-                if (user != null) {
-                    if (user.getIdRole() == 1) {
-                        new HomePageAdminView().setVisible(true);
-                    } else if (user.getIdRole() == 2) {
-                        new HomePageUserView(username).setVisible(true);
-                    }
-                    view.dispose();
-                } else {
-                    view.showErrorMessage("Username atau Password salah!");
-                }
+    public void doLogin() {
+        if (!validateLogin()) {
+            return;
+        }
+        User u = userDAO.verifikasiUsers(view.getUsername(), view.getPassword());
+        if (u == null) {
+            view.showErrorMessage("Username atau Password salah!");
+        } else {
+            if (u.getIdRole() == 1) {
+                new HomePageAdminView().setVisible(true);
+            } else if (u.getIdRole() == 2) {
+                new HomePageUserView(u.getNamaPengguna()).setVisible(true);
             }
-        }
-    }
-
-    class ResetButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            int confirm = view.showConfirmDialog("Yakin ingin menghapus input?", "Konfirmasi");
-            if (confirm == JOptionPane.YES_OPTION) {
-                view.clearFields();
-            }
-        }
-    }
-
-    class ExitButtonListener extends MouseAdapter {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            System.exit(0);
-        }
-    }
-
-    class ForgotPasswordListener extends MouseAdapter {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            {
-                String email = view.showInputDialog("Masukkan email terdaftar:", "Lupa Password");
-                if (email == null) {
-                    return;
-                }
-                if (email.trim().isEmpty()) {
-                    view.showErrorMessage("Email tidak boleh kosong!");
-                    return;
-                }
-                if (!userDAO.checkEmailExists(email)) {
-                    view.showErrorMessage("Email tidak terdaftar!");
-                    return;
-                }
-                LupaPasswordPageView lupaPage = new LupaPasswordPageView(email);
-                LupaPasswordController ctrl = new LupaPasswordController(lupaPage);
-                boolean ok = ctrl.sendOTP(email);
-                if (ok) {
-                    view.dispose();
-                }
-
-            }
-        }
-    }
-
-    class RegisterLinkListener extends MouseAdapter {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            RegisterPageView registerView = new RegisterPageView();
-            UserDAO userDAO = new UserDAO(); // atau bisa reuse dari LoginController
-            new RegisterController(registerView, userDAO); // ini menghubungkan UI dan logic
-            registerView.setVisible(true);
             view.dispose();
         }
     }
+
+    public void doReset() {
+        if (view.showConfirmDialog("Yakin ingin menghapus input?", "Konfirmasi")
+                == JOptionPane.YES_OPTION) {
+            view.clearFields();
+        }
+    }
+
+    public void doForgotPassword() {
+        String email = view.showInputDialog("Masukkan email terdaftar:", "Lupa Password");
+        if (email == null){
+            return;
+        }
+        else if (email.trim().isEmpty()) {
+            view.showErrorMessage("Email tidak boleh kosong!");
+            return;
+        }
+        if (!userDAO.checkEmailExists(email)) {
+            view.showErrorMessage("Email tidak terdaftar!");
+            return;
+        }
+        LupaPasswordPageView lupaPage = new LupaPasswordPageView(email);
+        LupaPasswordController ctrl = new LupaPasswordController(lupaPage);
+        if (ctrl.sendOTP(email)) {
+            view.dispose();
+        }
+    }
+
+    public void doRegister() {
+        RegisterPageView registerView = new RegisterPageView();
+        new RegisterController(registerView, userDAO);
+        registerView.setVisible(true);
+        view.dispose();
+    }
+
 }
