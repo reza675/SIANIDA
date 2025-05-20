@@ -33,7 +33,7 @@ public class PinjamBukuController {
         List<Buku> list = dao.getAllBuku();
         for (Buku bm : list) {
             Object[] row = {
-                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah()
+                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah(),bm.getJenisBuku()
             };
             tableModel.addRow(row);
         }
@@ -41,7 +41,7 @@ public class PinjamBukuController {
 
     public void pinjamBuku(int idBuku, String nama, String penulis, int jumlah) {
         try {
-            dao.recordBorrow(username, idBuku, jumlah);  
+            dao.recordBorrow(username, idBuku, nama, penulis, jumlah);  
             loadTable();
             view.showMessage("Berhasil meminjam buku!");
         } catch (SQLException ex) {

@@ -38,7 +38,7 @@ public class HomePageUserController {
         List<Buku> list = dao.getAllBuku();
         for (Buku bm : list) {
             Object[] row = {
-                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah()
+                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah(), bm.getJenisBuku()
             };
             tableModel.addRow(row);
         }

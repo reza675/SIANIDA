@@ -25,7 +25,8 @@ public class BukuDAO {
                         rs.getInt("idBuku"),
                         rs.getString("namaBuku"),
                         rs.getString("penulis"),
-                        rs.getInt("jumlah")
+                        rs.getInt("jumlah"),
+                        rs.getString("kategori")
                 ));
             }
         } catch (SQLException ex) {
@@ -45,12 +46,13 @@ public class BukuDAO {
         }
     }
 
-    public void recordBorrow(String username, int idBuku, int jumlah) throws SQLException {
+    public void recordBorrow(String username, int idBuku, String namaBuku, String penulis, int jumlah) throws SQLException {
         if (jumlah <= 0) {
             throw new SQLException("Jumlah peminjaman harus lebih dari 0.");
         }
+
         String getIdUserSQL = "SELECT id FROM users WHERE namaPengguna = ?";
-        String getStockSQL = "SELECT jumlah FROM detailbuku WHERE idBuku = ?";
+        String getBukuDetailSQL = "SELECT namaBuku, penulis, jumlah FROM detailbuku WHERE idBuku = ?";
         String insertSQL = "INSERT INTO peminjamanbuku (id, idBuku, jumlah, total_pinjam, tgl_pinjam) VALUES (?, ?, ?, ?, NOW())";
         String reduceStockSQL = "UPDATE detailbuku SET jumlah = jumlah - ? WHERE idBuku = ? AND jumlah >= ?";
 
@@ -69,17 +71,26 @@ public class BukuDAO {
                 }
             }
 
-            // Ambil stok
+            // Ambil detail buku
+            String dbNamaBuku = null;
+            String dbPenulis = null;
             int stokTersedia = 0;
-            try (PreparedStatement ps = con.prepareStatement(getStockSQL)) {
+            try (PreparedStatement ps = con.prepareStatement(getBukuDetailSQL)) {
                 ps.setInt(1, idBuku);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
+                        dbNamaBuku = rs.getString("namaBuku");
+                        dbPenulis = rs.getString("penulis");
                         stokTersedia = rs.getInt("jumlah");
                     } else {
                         throw new SQLException("Buku tidak ditemukan.");
                     }
                 }
+            }
+
+            // Validasi nama dan penulis
+            if (!dbNamaBuku.equalsIgnoreCase(namaBuku.trim()) || !dbPenulis.equalsIgnoreCase(penulis.trim())) {
+                throw new SQLException("Nama buku atau penulis tidak sesuai dengan ID Buku.");
             }
 
             // Cek stok
@@ -96,17 +107,18 @@ public class BukuDAO {
                 ps.executeUpdate();
             }
 
-            // Kurangi stok jika masih cukup (cek lagi di SQL untuk concurrency safety)
+            // Kurangi stok
             try (PreparedStatement ps = con.prepareStatement(reduceStockSQL)) {
                 ps.setInt(1, jumlah);
                 ps.setInt(2, idBuku);
                 ps.setInt(3, jumlah);
                 int rowsUpdated = ps.executeUpdate();
                 if (rowsUpdated == 0) {
-                    con.rollback(); // Batalkan jika stok tidak cukup (balapan data)
+                    con.rollback();
                     throw new SQLException("Gagal mengurangi stok. Mungkin stok sudah tidak cukup karena transaksi lain.");
                 }
             }
+
         } catch (SQLException ex) {
             throw ex;
         }
@@ -117,7 +129,7 @@ public class BukuDAO {
         List<Buku> list = new ArrayList<>();
 
         String getIdUserSQL = "SELECT id FROM users WHERE namaPengguna = ?";
-        String sql = "SELECT b.idBuku, b.namaBuku, b.penulis, p.jumlah AS jumlahPinjam, p.tgl_pinjam AS tglPinjam, p.tgl_kembali AS tglKembali, p.tgl_pengembalian AS tglPengembalian FROM peminjamanbuku p JOIN detailbuku b ON p.idBuku = b.idBuku WHERE p.id = ?";
+        String sql = "SELECT b.idBuku, b.namaBuku, b.penulis, p.jumlah AS jumlahPinjam, b.kategori, p.tgl_pinjam AS tglPinjam, p.tgl_kembali AS tglKembali, p.tgl_pengembalian AS tglPengembalian FROM peminjamanbuku p JOIN detailbuku b ON p.idBuku = b.idBuku WHERE p.id = ?";
 
         try (Connection con = DBConnection.getConnection()) {
             // 1) Cari idUser
@@ -145,7 +157,8 @@ public class BukuDAO {
                                 rs2.getInt("jumlahPinjam"),
                                 rs2.getDate("tglPinjam"),
                                 rs2.getDate("tglKembali"),
-                                rs2.getDate("tglPengembalian")
+                                rs2.getDate("tglPengembalian"),
+                                rs2.getString("kategori")
                         );
                         list.add(b);
                     }
@@ -185,12 +198,13 @@ public class BukuDAO {
     }
 
     // Mengembalikan buku
-    public void returnBook(String username, int idBuku, int jumlahKembali) throws SQLException {
+    public void returnBook(String username, int idBuku, String nama, String penulis, int jumlahKembali) throws SQLException {
         if (jumlahKembali <= 0) {
             throw new SQLException("Jumlah pengembalian harus lebih dari 0.");
         }
 
         String sqlGetUser = "SELECT id FROM users WHERE namaPengguna = ?";
+        String sqlGetBuku = "SELECT namaBuku, penulis FROM detailbuku WHERE idBuku = ?";
         String sqlGetLoan = "SELECT jumlah AS sisa, total_pinjam, tgl_pinjam, tgl_kembali FROM peminjamanbuku WHERE id = ? AND idBuku = ?";
         String sqlPartialReturn = "UPDATE peminjamanbuku SET jumlah = jumlah - ? WHERE id = ? AND idBuku = ?";
         String sqlFullReturn = "UPDATE peminjamanbuku SET jumlah = 0, tgl_pengembalian = NOW() WHERE id = ? AND idBuku = ?";
@@ -199,7 +213,6 @@ public class BukuDAO {
         String sqlAddStock = "UPDATE detailbuku SET jumlah = jumlah + ? WHERE idBuku = ?";
 
         try (Connection con = DBConnection.getConnection()) {
-            con.setAutoCommit(false);
             int idUser;
 
             // Ambil ID user
@@ -213,7 +226,27 @@ public class BukuDAO {
                 }
             }
 
-            // Ambil sisa pinjam + total_pinjam + tanggal
+            // Ambil data buku (untuk validasi nama dan penulis)
+            String dbNamaBuku = null;
+            String dbPenulis = null;
+            try (PreparedStatement ps = con.prepareStatement(sqlGetBuku)) {
+                ps.setInt(1, idBuku);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        dbNamaBuku = rs.getString("namaBuku");
+                        dbPenulis = rs.getString("penulis");
+                    } else {
+                        throw new SQLException("Buku tidak ditemukan.");
+                    }
+                }
+            }
+
+            // Validasi nama dan penulis
+            if (!dbNamaBuku.equalsIgnoreCase(nama.trim()) || !dbPenulis.equalsIgnoreCase(penulis.trim())) {
+                throw new SQLException("Nama buku atau penulis tidak sesuai dengan ID Buku.");
+            }
+
+            // Ambil sisa pinjam + total pinjam + tanggal
             int sisaPinjam, totalPinjamAwal;
             Date tglPinjam, tglKembali;
             try (PreparedStatement ps = con.prepareStatement(sqlGetLoan)) {
@@ -230,12 +263,12 @@ public class BukuDAO {
                 }
             }
 
-            // Validasi
+            // Validasi jumlah pengembalian
             if (jumlahKembali > sisaPinjam) {
                 throw new SQLException("Anda hanya meminjam " + sisaPinjam + " buku.");
             }
 
-            // Partial vs Full
+            // Partial vs Full return
             if (jumlahKembali < sisaPinjam) {
                 try (PreparedStatement ps = con.prepareStatement(sqlPartialReturn)) {
                     ps.setInt(1, jumlahKembali);
@@ -256,7 +289,7 @@ public class BukuDAO {
                 }
             }
 
-            // Insert laporan dengan tglPengembalian = NOW() dan jumlahKembali
+            // Insert laporan
             try (PreparedStatement ps = con.prepareStatement(sqlInsertLaporan)) {
                 ps.setInt(1, idUser);
                 ps.setInt(2, idBuku);
@@ -273,7 +306,6 @@ public class BukuDAO {
                 ps.executeUpdate();
             }
 
-            con.commit();
         }
     }
 

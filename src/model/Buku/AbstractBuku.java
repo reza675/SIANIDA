@@ -92,6 +92,7 @@ public abstract class AbstractBuku {
 
     public void setTglPengembalian(Date tglPengembalian) {
         this.tglPengembalian = tglPengembalian;
-    }
+    }    
+    public abstract String getJenisBuku();
 
 }

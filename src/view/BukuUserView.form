@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="undecorated" type="boolean" value="true"/>
@@ -193,11 +193,12 @@
             <Component class="rojeru_san.complementos.RSTableMetro" name="tbl_detailBuku">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="0">
+                  <Table columnCount="7" rowCount="0">
                     <Column editable="true" title="ID Buku" type="java.lang.Object"/>
                     <Column editable="true" title="Nama Buku" type="java.lang.Object"/>
                     <Column editable="true" title="Penulis" type="java.lang.Object"/>
                     <Column editable="true" title="Jumlah" type="java.lang.Object"/>
+                    <Column editable="true" title="Kategori" type="java.lang.Object"/>
                     <Column editable="true" title="Tanggal Pinjam" type="java.lang.Object"/>
                     <Column editable="true" title="Jatuh Tempo" type="java.lang.Object"/>
                   </Table>
@@ -235,6 +236,11 @@
                       <Renderer/>
                     </Column>
                     <Column maxWidth="100" minWidth="100" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

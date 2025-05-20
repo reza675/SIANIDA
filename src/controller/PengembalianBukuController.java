@@ -37,7 +37,7 @@ public class PengembalianBukuController {
     }
     public void pengembalianBuku(int idBuku, String nama, String penulis, int jumlah) {
         try {
-            dao.returnBook(username, idBuku, jumlah);  
+            dao.returnBook(username, idBuku, nama,penulis,jumlah);  
             loadTable();
             view.showMessage("Berhasil mengembalikan buku!");
         } catch (SQLException ex) {

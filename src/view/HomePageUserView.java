@@ -319,7 +319,7 @@ public class HomePageUserView extends javax.swing.JFrame {
 
         jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 340, 60));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 340, 830));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 300, 830));
 
         jPanel11.setBackground(new java.awt.Color(239, 233, 226));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -339,7 +339,7 @@ public class HomePageUserView extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setText("Detail Buku SIANIDA");
-        jPanel11.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+        jPanel11.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
@@ -363,7 +363,7 @@ public class HomePageUserView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Buku", "Nama Buku", "Penulis", "Jumlah"
+                "ID", "Nama Buku", "Penulis", "Jumlah", "Kategori"
             }
         ));
         detailSianida.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
@@ -383,11 +383,13 @@ public class HomePageUserView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(detailSianida);
         if (detailSianida.getColumnModel().getColumnCount() > 0) {
-            detailSianida.getColumnModel().getColumn(0).setMinWidth(100);
-            detailSianida.getColumnModel().getColumn(0).setMaxWidth(100);
+            detailSianida.getColumnModel().getColumn(0).setMinWidth(50);
+            detailSianida.getColumnModel().getColumn(0).setMaxWidth(50);
+            detailSianida.getColumnModel().getColumn(3).setMinWidth(100);
+            detailSianida.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
-        jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 660, 300));
+        jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 730, 300));
 
         jLabel17.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(102, 102, 102));
@@ -396,9 +398,9 @@ public class HomePageUserView extends javax.swing.JFrame {
 
         panelPieChart.setFocusable(false);
         panelPieChart.setLayout(new java.awt.BorderLayout());
-        jPanel11.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 440, 330));
+        jPanel11.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 330, 390, 300));
 
-        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 1190, 830));
+        getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 1230, 830));
 
         setSize(new java.awt.Dimension(1523, 830));
         setLocationRelativeTo(null);

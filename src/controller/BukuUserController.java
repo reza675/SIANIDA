@@ -34,7 +34,7 @@ public class BukuUserController {
         List<Buku> list = dao.getUserBooks(username);
         for (Buku bm : list) {
             Object[] row = {
-                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah(), bm.getTglPinjam(), bm.getTglKembali()
+                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah(), bm.getJenisBuku(),bm.getTglPinjam(), bm.getTglKembali()
             };
             tableModel.addRow(row);
         }

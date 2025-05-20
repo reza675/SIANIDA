@@ -112,7 +112,7 @@ public class BukuUserView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Buku", "Nama Buku", "Penulis", "Jumlah", "Tanggal Pinjam", "Jatuh Tempo"
+                "ID Buku", "Nama Buku", "Penulis", "Jumlah", "Kategori", "Tanggal Pinjam", "Jatuh Tempo"
             }
         ));
         tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));

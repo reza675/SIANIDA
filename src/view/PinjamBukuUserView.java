@@ -275,7 +275,7 @@ public class PinjamBukuUserView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Buku", "Nama Buku", "Penulis", "Jumlah"
+                "ID Buku", "Nama Buku", "Penulis", "Jumlah", "Kategori"
             }
         ));
         tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
@@ -297,9 +297,11 @@ public class PinjamBukuUserView extends javax.swing.JFrame {
         if (tbl_detailBuku.getColumnModel().getColumnCount() > 0) {
             tbl_detailBuku.getColumnModel().getColumn(0).setMinWidth(100);
             tbl_detailBuku.getColumnModel().getColumn(0).setMaxWidth(100);
+            tbl_detailBuku.getColumnModel().getColumn(3).setMinWidth(100);
+            tbl_detailBuku.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
-        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 730, 300));
+        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 780, 300));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(136, 107, 70));
@@ -370,7 +372,6 @@ public class PinjamBukuUserView extends javax.swing.JFrame {
     private void tbl_detailBukuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_detailBukuMouseClicked
         int rowNo = tbl_detailBuku.getSelectedRow();
         TableModel model = tbl_detailBuku.getModel();
-
         text_idbuku.setText(model.getValueAt(rowNo, 0).toString());
         text_namabuku.setText(model.getValueAt(rowNo, 1).toString());
         text_penulis.setText(model.getValueAt(rowNo, 2).toString());
