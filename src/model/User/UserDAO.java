@@ -99,8 +99,7 @@ public class UserDAO {
             return false;
         }
     }
-    //buat namoilin informasi akunF user
-
+    //buat nampilin informasi akun user
     public User getUserByUsername(String namaPengguna) {
         String sql = "SELECT id AS idUser, namaPengguna, passwordPengguna, emailPengguna, nomorTeleponPengguna FROM users WHERE namaPengguna = ?";
         try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {

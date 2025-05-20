@@ -28,11 +28,10 @@ public class LupaPasswordController {
     private static final String FROM_EMAIL = "sianidadev@gmail.com";
     private static final String EMAIL_PWD = "qyxjcrxzeyegqnht";
 
-    public LupaPasswordController(LupaPasswordPageView view) {
+    public LupaPasswordController(LupaPasswordPageView view,UserDAO userDAO) {
         this.view = view;
         this.otpDAO = new OTPDAO();
         this.userDAO = new UserDAO();
-        view.setController(this);
     }
 
     public void handleSubmit() {
@@ -51,10 +50,9 @@ public class LupaPasswordController {
         try {
             if (userDAO.updatePassword(email, newPwd)) {
                 view.showInfo("Password berhasil diperbarui!");
-                view.close();
                 LoginPageView loginView = new LoginPageView();
-                new LoginController(loginView, new UserDAO());
                 loginView.setVisible(true);
+                view.dispose();
             } else {
                 view.showError("Gagal update password!");
             }
@@ -64,11 +62,6 @@ public class LupaPasswordController {
         }
     }
 
-    public void handleExit() {
-        System.exit(0);
-    }
-
-    // dipanggil waktu kirim OTP awal
     public boolean sendOTP(String email) {
         try {
             // 1. Hapus & simpan token baru
@@ -88,7 +81,6 @@ public class LupaPasswordController {
             String userInput = JOptionPane.showInputDialog(
                     null, "Masukkan 6 digit OTP:", "Verifikasi OTP", JOptionPane.PLAIN_MESSAGE);
             if (userInput != null && otpDAO.verify(email, userInput)) {
-                view.setVisible(true);
                 return true;
             } else {
                 JOptionPane.showMessageDialog(

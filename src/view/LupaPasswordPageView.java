@@ -5,6 +5,7 @@
 package View;
 
 import Controller.LupaPasswordController;
+import Model.User.UserDAO;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
@@ -16,10 +17,11 @@ import javax.swing.JOptionPane;
 public class LupaPasswordPageView extends javax.swing.JFrame {
 
     private String email;
-
+    private LupaPasswordController controller;
     public LupaPasswordPageView(String email) {
         this.email = email;
         initComponents();
+        controller = new LupaPasswordController(this, new UserDAO());
     }
 
     public String getEmail() {
@@ -34,18 +36,6 @@ public class LupaPasswordPageView extends javax.swing.JFrame {
         return new String(text_ConfirmPass.getPassword());
     }
 
-    public void addSubmitListener(ActionListener listener) {
-        rSMaterialButtonRectangle1.addActionListener(listener);
-    }
-
-    public void addExitButtonListener(MouseListener listener) {
-        jLabel14.addMouseListener(listener);
-    }
-
-    public void close() {
-        dispose();
-    }
-
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
@@ -53,17 +43,6 @@ public class LupaPasswordPageView extends javax.swing.JFrame {
     public void showInfo(String message) {
         JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
-
-    public void setController(Controller.LupaPasswordController controller) {
-        addSubmitListener(e -> controller.handleSubmit());
-        addExitButtonListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                controller.handleExit();
-            }
-        });
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,7 +134,7 @@ public class LupaPasswordPageView extends javax.swing.JFrame {
                 jLabel14MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 20, 30));
+        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 20, 30));
 
         jLabel8.setBackground(new java.awt.Color(240, 240, 240));
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -185,11 +164,11 @@ public class LupaPasswordPageView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
-
+        System.exit(0);
     }//GEN-LAST:event_jLabel14MouseClicked
 
     private void rSMaterialButtonRectangle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle1ActionPerformed
-
+        controller.handleSubmit();
     }//GEN-LAST:event_rSMaterialButtonRectangle1ActionPerformed
 
     private void text_NewPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_NewPassActionPerformed
@@ -226,9 +205,7 @@ public class LupaPasswordPageView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                String email = "";
-                LupaPasswordPageView view = new LupaPasswordPageView(email);
-                LupaPasswordController controller = new LupaPasswordController(view);
+                LupaPasswordPageView view = new LupaPasswordPageView("");
                 view.setVisible(true);
 
             }

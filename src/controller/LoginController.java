@@ -57,21 +57,29 @@ public class LoginController {
 
     public void doForgotPassword() {
         String email = view.showInputDialog("Masukkan email terdaftar:", "Lupa Password");
-        if (email == null){
+        if (email == null) {
             return;
-        }
-        else if (email.trim().isEmpty()) {
+        } else if (email.trim().isEmpty()) {
             view.showErrorMessage("Email tidak boleh kosong!");
             return;
         }
         if (!userDAO.checkEmailExists(email)) {
             view.showErrorMessage("Email tidak terdaftar!");
+            System.out.println("Cek email exists: " + email + " -> " + userDAO.checkEmailExists(email));
             return;
         }
         LupaPasswordPageView lupaPage = new LupaPasswordPageView(email);
-        LupaPasswordController ctrl = new LupaPasswordController(lupaPage);
-        if (ctrl.sendOTP(email)) {
-            view.dispose();
+        LupaPasswordController ctrl = new LupaPasswordController(lupaPage, userDAO);
+        try {
+            if (ctrl.sendOTP(email)) {
+                view.dispose();
+                lupaPage.setVisible(true);
+            } else {
+                view.showErrorMessage("OTP salah atau kadaluarsa.");
+            }
+        } catch (Error ex) {
+            ex.printStackTrace();
+            view.showErrorMessage("Gagal mengirim OTP!");
         }
     }
 
