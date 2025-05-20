@@ -81,6 +81,7 @@ public class LupaPasswordController {
             String userInput = JOptionPane.showInputDialog(
                     null, "Masukkan 6 digit OTP:", "Verifikasi OTP", JOptionPane.PLAIN_MESSAGE);
             if (userInput != null && otpDAO.verify(email, userInput)) {
+                view.setVisible(true);
                 return true;
             } else {
                 JOptionPane.showMessageDialog(

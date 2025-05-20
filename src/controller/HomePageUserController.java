@@ -55,7 +55,7 @@ public class HomePageUserController {
     //ini buku pinjaman
     public int getTotalBukuPinjaman() {
         try {
-            return dao.countAllBukuPinjaman();
+            return dao.countAllBukuPinjaman(username);
         } catch (SQLException ex) {
             view.showError("Error mengambil total buku: " + ex.getMessage());
             return 0;

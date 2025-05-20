@@ -159,105 +159,122 @@ public class BukuDAO {
         return list;
     }
 
-    //nampilin Total Buku diPinjam
-    public int countAllBukuPinjaman() throws SQLException {
-        String sql = "SELECT COUNT(*) FROM peminjamanbuku";
-        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
+    public int countAllBukuPinjaman(String username) throws SQLException {
+        String getIdUserSql = "SELECT id FROM users WHERE namaPengguna = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst1 = con.prepareStatement(getIdUserSql)) {
+            pst1.setString(1, username);
+            try (ResultSet rs1 = pst1.executeQuery()) {
+                if (!rs1.next()) {
+                    return 0;
+                }
+                int userId = rs1.getInt("id");
+
+                String countSql = "SELECT COUNT(*) FROM peminjamanbuku WHERE id = ?";
+                try (PreparedStatement pst2 = con.prepareStatement(countSql)) {
+                    pst2.setInt(1, userId);
+                    try (ResultSet rs2 = pst2.executeQuery()) {
+                        if (rs2.next()) {
+                            return rs2.getInt(1);
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
             }
-            return 0;
         }
     }
 
     // Mengembalikan buku
-public void returnBook(String username, int idBuku, int jumlahKembali) throws SQLException {
-    if (jumlahKembali <= 0) {
-        throw new SQLException("Jumlah pengembalian harus lebih dari 0.");
-    }
+    public void returnBook(String username, int idBuku, int jumlahKembali) throws SQLException {
+        if (jumlahKembali <= 0) {
+            throw new SQLException("Jumlah pengembalian harus lebih dari 0.");
+        }
 
-    String sqlGetUser = "SELECT id FROM users WHERE namaPengguna = ?";
-    String sqlGetLoan = "SELECT jumlah AS sisa, total_pinjam, tgl_pinjam, tgl_kembali FROM peminjamanbuku WHERE id = ? AND idBuku = ?";
-    String sqlPartialReturn ="UPDATE peminjamanbuku SET jumlah = jumlah - ? WHERE id = ? AND idBuku = ?";
-    String sqlFullReturn ="UPDATE peminjamanbuku SET jumlah = 0, tgl_pengembalian = NOW() WHERE id = ? AND idBuku = ?";
-    String sqlDeleteIfZero ="DELETE FROM peminjamanbuku WHERE id = ? AND idBuku = ?";
-    String sqlInsertLaporan ="INSERT INTO laporanpengembalian (id, idBuku, jumlahTotal, tglPinjam, tglKembali, pengembalian) VALUES (?, ?, ?, ?, ?, NOW())";
-    String sqlAddStock ="UPDATE detailbuku SET jumlah = jumlah + ? WHERE idBuku = ?";
+        String sqlGetUser = "SELECT id FROM users WHERE namaPengguna = ?";
+        String sqlGetLoan = "SELECT jumlah AS sisa, total_pinjam, tgl_pinjam, tgl_kembali FROM peminjamanbuku WHERE id = ? AND idBuku = ?";
+        String sqlPartialReturn = "UPDATE peminjamanbuku SET jumlah = jumlah - ? WHERE id = ? AND idBuku = ?";
+        String sqlFullReturn = "UPDATE peminjamanbuku SET jumlah = 0, tgl_pengembalian = NOW() WHERE id = ? AND idBuku = ?";
+        String sqlDeleteIfZero = "DELETE FROM peminjamanbuku WHERE id = ? AND idBuku = ?";
+        String sqlInsertLaporan = "INSERT INTO laporanpengembalian (id, idBuku, jumlahTotal, tglPinjam, tglKembali, pengembalian) VALUES (?, ?, ?, ?, ?, NOW())";
+        String sqlAddStock = "UPDATE detailbuku SET jumlah = jumlah + ? WHERE idBuku = ?";
 
-    try (Connection con = DBConnection.getConnection()) {
-        con.setAutoCommit(false);
-        int idUser;
+        try (Connection con = DBConnection.getConnection()) {
+            con.setAutoCommit(false);
+            int idUser;
 
-        // Ambil ID user
-        try (PreparedStatement ps = con.prepareStatement(sqlGetUser)) {
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) throw new SQLException("User tidak ditemukan.");
-                idUser = rs.getInt("id");
+            // Ambil ID user
+            try (PreparedStatement ps = con.prepareStatement(sqlGetUser)) {
+                ps.setString(1, username);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        throw new SQLException("User tidak ditemukan.");
+                    }
+                    idUser = rs.getInt("id");
+                }
             }
-        }
 
-        // Ambil sisa pinjam + total_pinjam + tanggal
-        int sisaPinjam, totalPinjamAwal;
-        Date tglPinjam, tglKembali;
-        try (PreparedStatement ps = con.prepareStatement(sqlGetLoan)) {
-            ps.setInt(1, idUser);
-            ps.setInt(2, idBuku);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) throw new SQLException("Tidak ada peminjaman untuk buku ini.");
-                sisaPinjam      = rs.getInt("sisa");
-                totalPinjamAwal = rs.getInt("total_pinjam");
-                tglPinjam       = rs.getDate("tgl_pinjam");
-                tglKembali      = rs.getDate("tgl_kembali");
+            // Ambil sisa pinjam + total_pinjam + tanggal
+            int sisaPinjam, totalPinjamAwal;
+            Date tglPinjam, tglKembali;
+            try (PreparedStatement ps = con.prepareStatement(sqlGetLoan)) {
+                ps.setInt(1, idUser);
+                ps.setInt(2, idBuku);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        throw new SQLException("Tidak ada peminjaman untuk buku ini.");
+                    }
+                    sisaPinjam = rs.getInt("sisa");
+                    totalPinjamAwal = rs.getInt("total_pinjam");
+                    tglPinjam = rs.getDate("tgl_pinjam");
+                    tglKembali = rs.getDate("tgl_kembali");
+                }
             }
-        }
 
-        // Validasi
-        if (jumlahKembali > sisaPinjam) {
-            throw new SQLException("Anda hanya meminjam " + sisaPinjam + " buku.");
-        }
+            // Validasi
+            if (jumlahKembali > sisaPinjam) {
+                throw new SQLException("Anda hanya meminjam " + sisaPinjam + " buku.");
+            }
 
-        // Partial vs Full
-        if (jumlahKembali < sisaPinjam) {
-            try (PreparedStatement ps = con.prepareStatement(sqlPartialReturn)) {
+            // Partial vs Full
+            if (jumlahKembali < sisaPinjam) {
+                try (PreparedStatement ps = con.prepareStatement(sqlPartialReturn)) {
+                    ps.setInt(1, jumlahKembali);
+                    ps.setInt(2, idUser);
+                    ps.setInt(3, idBuku);
+                    ps.executeUpdate();
+                }
+            } else {
+                try (PreparedStatement ps = con.prepareStatement(sqlFullReturn)) {
+                    ps.setInt(1, idUser);
+                    ps.setInt(2, idBuku);
+                    ps.executeUpdate();
+                }
+                try (PreparedStatement ps = con.prepareStatement(sqlDeleteIfZero)) {
+                    ps.setInt(1, idUser);
+                    ps.setInt(2, idBuku);
+                    ps.executeUpdate();
+                }
+            }
+
+            // Insert laporan dengan tglPengembalian = NOW() dan jumlahKembali
+            try (PreparedStatement ps = con.prepareStatement(sqlInsertLaporan)) {
+                ps.setInt(1, idUser);
+                ps.setInt(2, idBuku);
+                ps.setInt(3, jumlahKembali);
+                ps.setDate(4, tglPinjam);
+                ps.setDate(5, tglKembali);
+                ps.executeUpdate();
+            }
+
+            // Tambah stok
+            try (PreparedStatement ps = con.prepareStatement(sqlAddStock)) {
                 ps.setInt(1, jumlahKembali);
-                ps.setInt(2, idUser);
-                ps.setInt(3, idBuku);
-                ps.executeUpdate();
-            }
-        } else {
-            try (PreparedStatement ps = con.prepareStatement(sqlFullReturn)) {
-                ps.setInt(1, idUser);
                 ps.setInt(2, idBuku);
                 ps.executeUpdate();
             }
-            try (PreparedStatement ps = con.prepareStatement(sqlDeleteIfZero)) {
-                ps.setInt(1, idUser);
-                ps.setInt(2, idBuku);
-                ps.executeUpdate();
-            }
-        }
 
-        // Insert laporan dengan tglPengembalian = NOW() dan jumlahKembali
-        try (PreparedStatement ps = con.prepareStatement(sqlInsertLaporan)) {
-            ps.setInt(1, idUser);
-            ps.setInt(2, idBuku);
-            ps.setInt(3, jumlahKembali);
-            ps.setDate(4, tglPinjam);
-            ps.setDate(5, tglKembali);
-            ps.executeUpdate();
+            con.commit();
         }
-
-        // Tambah stok
-        try (PreparedStatement ps = con.prepareStatement(sqlAddStock)) {
-            ps.setInt(1, jumlahKembali);
-            ps.setInt(2, idBuku);
-            ps.executeUpdate();
-        }
-
-        con.commit();
     }
-}
-
 
 }
