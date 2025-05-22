@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import Model.User.UserDAO;
-import View.LoginPageView;
+import View.LoginRegister.LoginPageView;
 
 /**
  *

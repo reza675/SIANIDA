@@ -13,9 +13,10 @@ import java.util.List;
  *
  * @author ASUS
  */
-public class BukuDAO {
+public class BukuDAO implements InterfaceBukuDAO {
 
     //nampilin buku milik SIANIDA
+    @Override
     public List<Buku> getAllBuku() {
         List<Buku> list = new ArrayList<>();
         String sql = "SELECT * FROM detailbuku";
@@ -307,6 +308,74 @@ public class BukuDAO {
             }
 
         }
+    }
+
+    //tambah buku
+    @Override
+    public boolean insert(Buku b) {
+        String sql = "INSERT INTO detailbuku (idBuku, namaBuku, penulis, jumlah, kategori) VALUES (?, ?, ?, ?, ?)";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, b.getIdBuku());
+            stmt.setString(2, b.getNamaBuku());
+            stmt.setString(3, b.getPenulis());
+            stmt.setInt(4, b.getJumlah());
+            stmt.setString(5, b.getJenisBuku());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Edit error: " + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    //edit buku
+    @Override
+    public boolean edit(Buku bukuTerpilih) {
+        String sql = "UPDATE detailbuku SET namaBuku = ?, penulis = ?, jumlah = ?, kategori = ? WHERE idBuku = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, bukuTerpilih.getNamaBuku());
+            stmt.setString(2, bukuTerpilih.getPenulis());
+            stmt.setInt(3, bukuTerpilih.getJumlah());
+            stmt.setString(4, bukuTerpilih.getJenisBuku());
+            stmt.setInt(5, bukuTerpilih.getIdBuku());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Edit error: " + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    //hapus buku
+    @Override
+    public boolean delete(int idBuku) {
+        String sql = "DELETE FROM detailbuku WHERE idBuku = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, idBuku);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Hapus error: " + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    public Buku findById(int idBuku) throws SQLException {
+        String sql = "SELECT * FROM detailbuku WHERE idBuku = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, idBuku);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Gunakan constructor dengan parameter
+                    Buku b = new Buku(
+                            rs.getInt("idBuku"),
+                            rs.getString("namaBuku"),
+                            rs.getString("penulis"),
+                            rs.getInt("jumlah"),
+                            rs.getString("kategori")
+                    );
+                    return b;
+                }
+            }
+        }
+        return null;
     }
 
 }

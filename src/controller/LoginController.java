@@ -6,11 +6,11 @@ package Controller;
 
 import Model.User.User;
 import Model.User.UserDAO;
-import View.HomePageAdminView;
-import View.HomePageUserView;
-import View.LoginPageView;
-import View.LupaPasswordPageView;
-import View.RegisterPageView;
+import View.AksesAdmin.HomePageAdminView;
+import View.AksesUser.HomePageUserView;
+import View.LoginRegister.LoginPageView;
+import View.LoginRegister.LupaPasswordPageView;
+import View.LoginRegister.RegisterPageView;
 import javax.swing.JOptionPane;
 
 public class LoginController {
@@ -40,7 +40,7 @@ public class LoginController {
             view.showErrorMessage("Username atau Password salah!");
         } else {
             if (u.getIdRole() == 1) {
-                new HomePageAdminView().setVisible(true);
+                new HomePageAdminView(u.getNamaPengguna()).setVisible(true);
             } else if (u.getIdRole() == 2) {
                 new HomePageUserView(u.getNamaPengguna()).setVisible(true);
             }

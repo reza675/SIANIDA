@@ -8,13 +8,13 @@ package Controller;
 import Model.OTP.OTPDAO;
 import Model.OTP.OTPVerification;
 import Model.User.UserDAO;
-import View.LupaPasswordPageView;
+import View.LoginRegister.LupaPasswordPageView;
 import jakarta.mail.MessagingException;
 import java.sql.Timestamp;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import Model.EmailUtil;
-import View.LoginPageView;
+import View.LoginRegister.LoginPageView;
 
 /**
  *

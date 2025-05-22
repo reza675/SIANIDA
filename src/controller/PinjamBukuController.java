@@ -6,7 +6,7 @@ package controller;
 
 import Model.Buku.Buku;
 import Model.Buku.BukuDAO;
-import View.PinjamBukuUserView;
+import View.AksesUser.PinjamBukuUserView;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.sql.SQLException;

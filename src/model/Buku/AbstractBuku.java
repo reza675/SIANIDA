@@ -27,7 +27,7 @@ public abstract class AbstractBuku {
         this.penulis = penulis;
         this.jumlah = jumlah;
     }
-
+    //ini lengkap buat laporan
     public AbstractBuku(int idBuku, String namaBuku, String penulis, int jumlah, Date tglPinjam, Date tglKembali, Date tglPengembalian) {
         this.idBuku = idBuku;
         this.namaBuku = namaBuku;
@@ -37,7 +37,6 @@ public abstract class AbstractBuku {
         this.tglKembali = tglKembali;
         this.tglPengembalian = tglPengembalian;
     }
-
     public int getIdBuku() {
         return idBuku;
     }

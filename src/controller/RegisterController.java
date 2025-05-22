@@ -6,8 +6,8 @@ package Controller;
 
 import Model.User.User;
 import Model.User.UserDAO;
-import View.LoginPageView;
-import View.RegisterPageView;
+import View.LoginRegister.LoginPageView;
+import View.LoginRegister.RegisterPageView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
