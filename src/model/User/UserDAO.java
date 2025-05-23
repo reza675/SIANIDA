@@ -99,6 +99,7 @@ public class UserDAO {
             return false;
         }
     }
+
     //buat nampilin informasi akun user
     public User getUserByUsername(String namaPengguna) {
         String sql = "SELECT id AS idUser, namaPengguna, passwordPengguna, emailPengguna, nomorTeleponPengguna FROM users WHERE namaPengguna = ?";
@@ -120,20 +121,50 @@ public class UserDAO {
         }
         return null;
     }
+
     //buat update akun user
     public boolean updateUser(User user) {
-    String sql = "UPDATE users SET passwordPengguna = ?, emailPengguna = ?, nomorTeleponPengguna = ? WHERE namaPengguna = ?";
-    try (Connection con = DBConnection.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setString(1, user.getPasswordPengguna());
-        ps.setString(2, user.getEmail());
-        ps.setString(3, user.getnomorTelepon());
-        ps.setString(4, user.getNamaPengguna());
-        return ps.executeUpdate() > 0;
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        return false;
+        String sql = "UPDATE users SET passwordPengguna = ?, emailPengguna = ?, nomorTeleponPengguna = ? WHERE namaPengguna = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, user.getPasswordPengguna());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getnomorTelepon());
+            ps.setString(4, user.getNamaPengguna());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
-}
+
+    //ngambil dataUser
+    public List<User> getAllUser() {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT * FROM Users WHERE idRole != 1";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new User(
+                        rs.getInt("id"),
+                        rs.getString("namaPengguna"),
+                        rs.getString("passwordPengguna"),
+                        rs.getString("emailPengguna"),
+                        rs.getString("nomorTeleponPengguna")
+                ));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    //ngitung total user
+    public int countAllUser() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE idRole !=1";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
 
 }

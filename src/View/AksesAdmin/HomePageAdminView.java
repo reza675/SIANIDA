@@ -4,7 +4,21 @@
  */
 package View.AksesAdmin;
 
+import Controller.HomePageAdminController;
+import Model.Buku.Buku;
 import View.LoginRegister.LoginPageView;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PieLabelLinkStyle;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -13,14 +27,84 @@ import View.LoginRegister.LoginPageView;
 public class HomePageAdminView extends javax.swing.JFrame {
 
     private String username;
+    HomePageAdminController controller;
+
     public HomePageAdminView(String username) {
         initComponents();
         this.username = username;
+        controller = new HomePageAdminController(this, username);
         customizeView();
-        
+        hitungBukuSianida();
+        hitungUser();
+        controller.loadTable();
+        controller.loadTableUser();
+        List<Buku> data = controller.fetchAllBuku();
+        showPieChart(data);
+
     }
+
     private void customizeView() {
         admin.setText(this.username);
+    }
+
+    public DefaultTableModel getTblModel() {
+        return (DefaultTableModel) detailSianida.getModel();
+    }
+    public DefaultTableModel getTblModelUser() {
+        return (DefaultTableModel) detailPengguna.getModel();
+    }
+
+    public void hitungBukuSianida() {
+        int totalBuku = controller.getTotalBuku();
+        bukuSIANIDA.setText(String.valueOf(totalBuku));
+    }
+    public void hitungUser() {
+        int totalUser = controller.getTotalUser();
+        userSIANIDA.setText(String.valueOf(totalUser));
+    }
+
+    public void showError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    public void showPieChart(List<Buku> daftarBuku) {
+        // 1. Bangun dataset
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        for (Buku b : daftarBuku) {
+            if (b.getJumlah() > 0) {
+                dataset.setValue(b.getNamaBuku(), b.getJumlah());
+            }
+        }
+        // 2. Buat chart
+        JFreeChart pieChart = ChartFactory.createPieChart(
+            "Diagram Buku SIANIDA", 
+            dataset,
+            true, 
+            true,   
+            false 
+        );
+        // 3. Kustomisasi plot agar label di luar irisan
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+
+        // format: Nama : Jumlah (Persen)
+        plot.setSimpleLabels(false);
+        plot.setLabelGenerator(
+            new StandardPieSectionLabelGenerator("{0} : {1} ({2})")
+        );
+        plot.setLabelLinkStyle(PieLabelLinkStyle.CUBIC_CURVE);
+        plot.setLabelLinkMargin(0.05);
+        plot.setLabelGap(0.01);
+        plot.setLabelBackgroundPaint(new Color(255,255,255,200)); 
+        plot.setLabelOutlinePaint(null);
+        plot.setLabelShadowPaint(null);
+        plot.setStartAngle(360);
+        plot.setDirection(org.jfree.util.Rotation.CLOCKWISE);
+
+        // 4. Tampilkan di panelSwing
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        panelPieChart.removeAll();
+        panelPieChart.add(chartPanel, BorderLayout.CENTER);
+        panelPieChart.validate();
     }
 
     /**
@@ -53,26 +137,41 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        bukuSIANIDA = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        userSIANIDA = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        rekapSIANIDA = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        belumSIANIDA = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
         panelPieChart = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        detailPengguna = new rojeru_san.complementos.RSTableMetro();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        detailSianida = new rojeru_san.complementos.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1713, 830));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1722, 84, 37, -1));
 
@@ -183,7 +282,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Exit_26px_2.png"))); // NOI18N
-        jLabel9.setText("   Logout");
+        jLabel9.setText("    Logout");
         jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel9MouseClicked(evt);
@@ -191,15 +290,20 @@ public class HomePageAdminView extends javax.swing.JFrame {
         });
         jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 30));
 
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 640, 360, 60));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 360, 60));
 
         jPanel8.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel8.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jPanel8FocusLost(evt);
+            }
+        });
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel10.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Book_26px.png"))); // NOI18N
-        jLabel10.setText("   Manajemen Buku");
+        jLabel10.setText("    Manajemen Buku");
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel10MouseClicked(evt);
@@ -207,47 +311,56 @@ public class HomePageAdminView extends javax.swing.JFrame {
         });
         jPanel8.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 250, 30));
 
+        jPanel13.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Book_26px.png"))); // NOI18N
+        jLabel11.setText("    Manajemen Buku");
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel11MouseClicked(evt);
+            }
+        });
+        jPanel13.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 250, 30));
+
+        jPanel8.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 360, 60));
+
         jPanel3.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 360, 60));
 
         jPanel9.setBackground(new java.awt.Color(159, 151, 129));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Sell_26px.png"))); // NOI18N
-        jLabel7.setText("   Peminjaman Buku");
-        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 230, 30));
+        jLabel20.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_View_Details_26px.png"))); // NOI18N
+        jLabel20.setText("    Rekap Peminjaman");
+        jPanel9.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 290, 30));
 
         jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 360, 60));
 
         jPanel10.setBackground(new java.awt.Color(159, 151, 129));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Return_Purchase_26px.png"))); // NOI18N
-        jLabel11.setText("   Pengembalian Buku");
-        jPanel10.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 30));
-
-        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 360, 60));
-
-        jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Books_26px.png"))); // NOI18N
-        jLabel12.setText("   Lihat Peminjaman Buku");
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 530, 270, 30));
-
         jLabel19.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Conference_26px.png"))); // NOI18N
-        jLabel19.setText("   Daftar Pengguna");
-        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 240, 30));
+        jLabel19.setText("    Belum Dikembalikan");
+        jPanel10.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 290, 30));
 
-        jLabel20.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_View_Details_26px.png"))); // NOI18N
-        jLabel20.setText("    Lihat Riwayat");
-        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 240, 30));
+        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 360, 60));
+
+        jPanel19.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel29.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Books_26px.png"))); // NOI18N
+        jLabel29.setText("    Peminjaman Pending");
+        jPanel19.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 270, 30));
+
+        jPanel3.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 360, 60));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 75, 360, 910));
 
@@ -258,44 +371,171 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jPanel12.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
-        jLabel13.setText("10");
-        jPanel12.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 140, -1));
+        bukuSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        bukuSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
+        bukuSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        bukuSIANIDA.setText("10");
+        jPanel12.add(bukuSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, -1));
 
-        jPanel11.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 260, 140));
+        jPanel11.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 210, 140));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel14.setText("Detail Buku SIANIDA");
-        jPanel11.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, -1, -1));
+        jLabel14.setText("Detail Pengguna");
+        jPanel11.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel16.setText("Buku Saya");
-        jPanel11.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 40, -1, -1));
-
-        jPanel13.setBackground(new java.awt.Color(255, 245, 219));
-        jPanel13.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
-        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel15.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-books-50.png"))); // NOI18N
-        jLabel15.setText("10");
-        jPanel13.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 140, -1));
-
-        jPanel11.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, 260, 140));
+        jLabel16.setText("Jumlah Pengguna");
+        jPanel11.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(102, 102, 102));
         jLabel17.setText("Jumlah Buku SIANIDA");
-        jPanel11.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, -1));
+        jPanel11.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
+
+        jLabel23.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel23.setText("Rekap Peminjaman");
+        jPanel11.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 10, -1, -1));
+
+        jPanel15.setBackground(new java.awt.Color(255, 245, 219));
+        jPanel15.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
+        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        userSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        userSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
+        userSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_People_50px.png"))); // NOI18N
+        userSIANIDA.setText("10");
+        jPanel15.add(userSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, -1));
+
+        jPanel16.setBackground(new java.awt.Color(255, 245, 219));
+        jPanel16.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
+        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel25.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        jLabel25.setText("10");
+        jPanel16.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 140, -1));
+
+        jPanel15.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 210, 140));
+
+        jPanel11.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 210, 140));
+
+        jPanel14.setBackground(new java.awt.Color(255, 245, 219));
+        jPanel14.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        rekapSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        rekapSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
+        rekapSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Sell_50px.png"))); // NOI18N
+        rekapSIANIDA.setText("10");
+        jPanel14.add(rekapSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 140, -1));
+
+        jPanel11.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 40, 210, 140));
+
+        jPanel17.setBackground(new java.awt.Color(255, 245, 219));
+        jPanel17.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
+        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel26.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Book_Shelf_50px.png"))); // NOI18N
+        jLabel26.setText("10");
+        jPanel17.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 140, -1));
+
+        jPanel11.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1460, 70, 210, 140));
+
+        jPanel18.setBackground(new java.awt.Color(255, 245, 219));
+        jPanel18.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
+        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        belumSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        belumSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
+        belumSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_List_of_Thumbnails_50px.png"))); // NOI18N
+        belumSIANIDA.setText("10");
+        jPanel18.add(belumSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 140, -1));
+
+        jPanel11.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 40, 210, 140));
+
+        jLabel28.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel28.setText("Belum Dikembalikan");
+        jPanel11.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
 
         panelPieChart.setFocusable(false);
         panelPieChart.setLayout(new java.awt.BorderLayout());
-        jPanel11.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 440, 330));
+        jPanel11.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 330, 390, 300));
+
+        detailPengguna.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nama Pengguna", "Nomor Telepon"
+            }
+        ));
+        detailPengguna.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
+        detailPengguna.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
+        detailPengguna.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        detailPengguna.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        detailPengguna.setColorSelBackgound(new java.awt.Color(235, 206, 148));
+        detailPengguna.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
+        detailPengguna.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        detailPengguna.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        detailPengguna.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
+        detailPengguna.setRowHeight(40);
+        detailPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                detailPenggunaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(detailPengguna);
+        if (detailPengguna.getColumnModel().getColumnCount() > 0) {
+            detailPengguna.getColumnModel().getColumn(0).setMinWidth(75);
+            detailPengguna.getColumnModel().getColumn(0).setMaxWidth(75);
+        }
+
+        jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 720, 220));
+
+        jLabel15.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel15.setText("Detail Buku SIANIDA");
+        jPanel11.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, -1, -1));
+
+        detailSianida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nama Buku", "Penulis", "Jumlah", "Kategori"
+            }
+        ));
+        detailSianida.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
+        detailSianida.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
+        detailSianida.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        detailSianida.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        detailSianida.setColorSelBackgound(new java.awt.Color(235, 206, 148));
+        detailSianida.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
+        detailSianida.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        detailSianida.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
+        detailSianida.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
+        detailSianida.setRowHeight(40);
+        detailSianida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                detailSianidaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(detailSianida);
+        if (detailSianida.getColumnModel().getColumnCount() > 0) {
+            detailSianida.getColumnModel().getColumn(0).setMinWidth(75);
+            detailSianida.getColumnModel().getColumn(0).setMaxWidth(75);
+            detailSianida.getColumnModel().getColumn(3).setMinWidth(100);
+            detailSianida.getColumnModel().getColumn(3).setMaxWidth(100);
+        }
+
+        jPanel11.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 720, 240));
 
         getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 75, 1364, 910));
 
@@ -321,6 +561,22 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         System.exit(0);
     }//GEN-LAST:event_jLabel21MouseClicked
+
+    private void detailPenggunaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detailPenggunaMouseClicked
+
+    }//GEN-LAST:event_detailPenggunaMouseClicked
+
+    private void detailSianidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detailSianidaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detailSianidaMouseClicked
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void jPanel8FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel8FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel8FocusLost
 
     /**
      * @param args the command line arguments
@@ -359,12 +615,14 @@ public class HomePageAdminView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel admin;
+    private javax.swing.JLabel belumSIANIDA;
+    private javax.swing.JLabel bukuSIANIDA;
+    private rojeru_san.complementos.RSTableMetro detailPengguna;
+    private rojeru_san.complementos.RSTableMetro detailSianida;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -374,11 +632,15 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -386,6 +648,12 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -394,6 +662,11 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelPieChart;
+    private javax.swing.JLabel rekapSIANIDA;
+    private javax.swing.JLabel userSIANIDA;
     // End of variables declaration//GEN-END:variables
+
 }
