@@ -290,7 +290,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
             </Container>
-            <Component class="rojeru_san.componentes.RSDateChooser" name="rSDateChooser1">
+            <Component class="rojeru_san.componentes.RSDateChooser" name="tglKembali">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="90" green="ac" red="c8" type="rgb"/>
@@ -325,7 +325,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="rojeru_san.componentes.RSDateChooser" name="rSDateChooser2">
+            <Component class="rojeru_san.componentes.RSDateChooser" name="tglPinjam">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="90" green="ac" red="c8" type="rgb"/>
@@ -394,11 +394,11 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="150" y="130" width="170" height="-1"/>
+                  <AbsoluteConstraints x="150" y="120" width="170" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="rojerusan.RSMaterialButtonCircle" name="rSMaterialButtonCircle1">
+            <Component class="rojerusan.RSMaterialButtonCircle" name="cariTanggal">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="5e" green="84" red="a2" type="rgb"/>
@@ -406,7 +406,7 @@
                 <Property name="text" type="java.lang.String" value="Cari"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rSMaterialButtonCircle1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cariTanggalActionPerformed"/>
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

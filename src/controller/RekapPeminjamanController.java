@@ -7,6 +7,8 @@ package Controller;
 import Model.Laporan.Laporan;
 import Model.Laporan.LaporanDAO;
 import View.AksesAdmin.RekapPeminjamanView;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,5 +44,23 @@ public class RekapPeminjamanController {
             m.addRow(row);
         }
     }
-
+     public void loadTableByDate(Date from, Date to) {
+        try {
+            DefaultTableModel m = view.getTblModel();
+            m.setRowCount(0);
+            List<Laporan> list = dao.getByDateRange(from, to);
+            for (Laporan rpt : list) {
+                m.addRow(new Object[]{
+                    rpt.getIdLaporan(),
+                    rpt.getNamaBuku(),
+                    rpt.getNamaPengguna(),
+                    rpt.getTglPinjam(),
+                    rpt.getTglKembali(),
+                    rpt.getPengembalian()
+                });
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
