@@ -36,6 +36,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         customizeView();
         hitungBukuSianida();
         hitungUser();
+        hitungRekap();
         controller.loadTable();
         controller.loadTableUser();
         List<Buku> data = controller.fetchAllBuku();
@@ -61,6 +62,10 @@ public class HomePageAdminView extends javax.swing.JFrame {
     public void hitungUser() {
         int totalUser = controller.getTotalUser();
         userSIANIDA.setText(String.valueOf(totalUser));
+    }
+     public void hitungRekap() {
+        int totalUser = controller.getTotalRekap();
+        rekapSIANIDA.setText(String.valueOf(totalUser));
     }
 
     public void showError(String msg) {
@@ -336,6 +341,11 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_View_Details_26px.png"))); // NOI18N
         jLabel20.setText("    Rekap Peminjaman");
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+        });
         jPanel9.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 290, 30));
 
         jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 360, 60));
@@ -577,6 +587,12 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private void jPanel8FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel8FocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel8FocusLost
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        RekapPeminjamanView rekapPage = new RekapPeminjamanView(username);
+        rekapPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel20MouseClicked
 
     /**
      * @param args the command line arguments

@@ -47,6 +47,16 @@ public class BukuDAO implements InterfaceBukuDAO {
         }
     }
 
+    public int countAllRekap() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM laporanpengembalian";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
     public void recordBorrow(String username, int idBuku, String namaBuku, String penulis, int jumlah) throws SQLException {
         if (jumlah <= 0) {
             throw new SQLException("Jumlah peminjaman harus lebih dari 0.");

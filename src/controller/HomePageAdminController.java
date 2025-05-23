@@ -16,7 +16,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ASUS
  */
-public class HomePageAdminController extends AbstractHomePageController{
+public class HomePageAdminController extends AbstractHomePageController {
+
     private HomePageAdminView view;
     private UserDAO userDao;
 
@@ -24,12 +25,14 @@ public class HomePageAdminController extends AbstractHomePageController{
         super(username);
         this.view = view;
         this.userDao = new UserDAO();
-        
+
     }
+
     @Override
     public List<Buku> fetchAllBuku() {
         return dao.getAllBuku();
     }
+
     @Override
     public int getTotalBuku() {
         try {
@@ -39,6 +42,7 @@ public class HomePageAdminController extends AbstractHomePageController{
             return 0;
         }
     }
+
     @Override
     public void loadTable() {
         DefaultTableModel tableModel = (DefaultTableModel) view.getTblModel();
@@ -51,9 +55,20 @@ public class HomePageAdminController extends AbstractHomePageController{
             tableModel.addRow(row);
         }
     }
+
+    public int getTotalRekap() {
+        try {
+            return dao.countAllRekap();
+        } catch (SQLException ex) {
+            view.showError("Error mengambil total buku: " + ex.getMessage());
+            return 0;
+        }
+    }
+
     public List<User> fetchAllUser() {
         return userDao.getAllUser();
     }
+
     public int getTotalUser() {
         try {
             return userDao.countAllUser();
@@ -62,6 +77,7 @@ public class HomePageAdminController extends AbstractHomePageController{
             return 0;
         }
     }
+
     public void loadTableUser() {
         DefaultTableModel tableModel = (DefaultTableModel) view.getTblModelUser();
         tableModel.setRowCount(0);
@@ -73,6 +89,5 @@ public class HomePageAdminController extends AbstractHomePageController{
             tableModel.addRow(row);
         }
     }
-    
-    
+
 }
