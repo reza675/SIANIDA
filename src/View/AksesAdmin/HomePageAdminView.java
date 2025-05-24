@@ -6,6 +6,8 @@ package View.AksesAdmin;
 
 import Controller.HomePageAdminController;
 import Model.Buku.Buku;
+import Model.User.User;
+import Model.User.UserDAO;
 import View.LoginRegister.LoginPageView;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,10 +30,14 @@ public class HomePageAdminView extends javax.swing.JFrame {
 
     private String username;
     HomePageAdminController controller;
+    private UserDAO userDAO;  
 
     public HomePageAdminView(String username) {
         initComponents();
+         admin.setText(username);
+        
         this.username = username;
+         userDAO = new UserDAO();
         controller = new HomePageAdminController(this, username);
         customizeView();
         hitungBukuSianida();
@@ -41,16 +47,29 @@ public class HomePageAdminView extends javax.swing.JFrame {
         controller.loadTableUser();
         List<Buku> data = controller.fetchAllBuku();
         showPieChart(data);
+        loadUserData();
 
     }
 
     private void customizeView() {
         admin.setText(this.username);
+
     }
+
+    private void loadUserData() {
+        User u = userDAO.getUserByUsername(username);
+        if (u != null) {
+            admin.setText(u.getNamaPengguna());
+           
+        }
+    }
+
+
 
     public DefaultTableModel getTblModel() {
         return (DefaultTableModel) detailSianida.getModel();
     }
+
     public DefaultTableModel getTblModelUser() {
         return (DefaultTableModel) detailPengguna.getModel();
     }
@@ -59,11 +78,13 @@ public class HomePageAdminView extends javax.swing.JFrame {
         int totalBuku = controller.getTotalBuku();
         bukuSIANIDA.setText(String.valueOf(totalBuku));
     }
+
     public void hitungUser() {
         int totalUser = controller.getTotalUser();
         userSIANIDA.setText(String.valueOf(totalUser));
     }
-     public void hitungRekap() {
+
+    public void hitungRekap() {
         int totalUser = controller.getTotalRekap();
         rekapSIANIDA.setText(String.valueOf(totalUser));
     }
@@ -71,6 +92,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
     public void showError(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
     public void showPieChart(List<Buku> daftarBuku) {
         // 1. Bangun dataset
         DefaultPieDataset dataset = new DefaultPieDataset();
@@ -81,11 +103,11 @@ public class HomePageAdminView extends javax.swing.JFrame {
         }
         // 2. Buat chart
         JFreeChart pieChart = ChartFactory.createPieChart(
-            "Diagram Buku SIANIDA", 
-            dataset,
-            true, 
-            true,   
-            false 
+                "Diagram Buku SIANIDA",
+                dataset,
+                true,
+                true,
+                false
         );
         // 3. Kustomisasi plot agar label di luar irisan
         PiePlot plot = (PiePlot) pieChart.getPlot();
@@ -94,12 +116,12 @@ public class HomePageAdminView extends javax.swing.JFrame {
         // format: Nama : Jumlah (Persen)
         plot.setSimpleLabels(false);
         plot.setLabelGenerator(
-            new StandardPieSectionLabelGenerator("{0} : {1} ({2})")
+                new StandardPieSectionLabelGenerator("{0} : {1} ({2})")
         );
         plot.setLabelLinkStyle(PieLabelLinkStyle.CUBIC_CURVE);
         plot.setLabelLinkMargin(0.05);
         plot.setLabelGap(0.01);
-        plot.setLabelBackgroundPaint(new Color(255,255,255,200)); 
+        plot.setLabelBackgroundPaint(new Color(255, 255, 255, 200));
         plot.setLabelOutlinePaint(null);
         plot.setLabelShadowPaint(null);
         plot.setStartAngle(360);
@@ -150,6 +172,8 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         bukuSIANIDA = new javax.swing.JLabel();
@@ -295,7 +319,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         });
         jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 30));
 
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 360, 60));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 360, 60));
 
         jPanel8.setBackground(new java.awt.Color(159, 151, 129));
         jPanel8.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -357,6 +381,11 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Conference_26px.png"))); // NOI18N
         jLabel19.setText("    Belum Dikembalikan");
+        jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
+        });
         jPanel10.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 290, 30));
 
         jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 360, 60));
@@ -368,9 +397,30 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Books_26px.png"))); // NOI18N
         jLabel29.setText("    Peminjaman Pending");
+        jLabel29.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel29MouseClicked(evt);
+            }
+        });
         jPanel19.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 270, 30));
 
         jPanel3.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 360, 60));
+
+        jPanel20.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-administrator-male-30.png"))); // NOI18N
+        jLabel12.setText("    Akun Admin");
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
+        jPanel20.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 30));
+
+        jPanel3.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 360, 60));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 75, 360, 910));
 
@@ -483,7 +533,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nama Pengguna", "Nomor Telepon"
+                "No", " ID User", "Nama Pengguna", "Nomor Telepon"
             }
         ));
         detailPengguna.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
@@ -505,6 +555,8 @@ public class HomePageAdminView extends javax.swing.JFrame {
         if (detailPengguna.getColumnModel().getColumnCount() > 0) {
             detailPengguna.getColumnModel().getColumn(0).setMinWidth(75);
             detailPengguna.getColumnModel().getColumn(0).setMaxWidth(75);
+            detailPengguna.getColumnModel().getColumn(1).setMinWidth(100);
+            detailPengguna.getColumnModel().getColumn(1).setMaxWidth(100);
         }
 
         jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 720, 220));
@@ -594,6 +646,22 @@ public class HomePageAdminView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jLabel20MouseClicked
 
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        AkunAdminView akunAdmin = new AkunAdminView(username);
+        akunAdmin.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
+        
+    }//GEN-LAST:event_jLabel19MouseClicked
+
+    private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
+        BukuPendingView bukuPending = new BukuPendingView(username);
+        bukuPending.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel29MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -639,6 +707,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -671,6 +740,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

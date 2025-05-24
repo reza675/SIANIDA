@@ -318,7 +318,7 @@ public class HomePageUserView extends javax.swing.JFrame {
         jLabel12.setText("   Akun Saya");
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 240, 30));
 
-        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 340, 60));
+        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 300, 60));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 300, 830));
 

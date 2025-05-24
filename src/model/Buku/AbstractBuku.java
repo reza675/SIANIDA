@@ -37,6 +37,14 @@ public abstract class AbstractBuku {
         this.tglKembali = tglKembali;
         this.tglPengembalian = tglPengembalian;
     }
+    //ini buat nampilin bukuPending
+     public AbstractBuku(int idBuku, String namaBuku,int jumlah, Date tglPinjam, Date tglKembali) {
+        this.idBuku = idBuku;
+        this.namaBuku = namaBuku;
+        this.jumlah = jumlah;
+        this.tglPinjam = tglPinjam;
+        this.tglKembali = tglKembali;
+    }
     public int getIdBuku() {
         return idBuku;
     }

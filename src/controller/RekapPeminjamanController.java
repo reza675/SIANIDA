@@ -32,9 +32,10 @@ public class RekapPeminjamanController {
         DefaultTableModel m = view.getTblModel();
         m.setRowCount(0);
         List<Laporan> semua = dao.getBukuAdmin();
+        int no = 1;
         for (Laporan rpt : semua) {
             Object[] row = {
-                rpt.getIdLaporan(),
+                no++,
                 rpt.getNamaBuku(),
                 rpt.getNamaPengguna(),
                 rpt.getTglPinjam(),
@@ -49,9 +50,10 @@ public class RekapPeminjamanController {
             DefaultTableModel m = view.getTblModel();
             m.setRowCount(0);
             List<Laporan> list = dao.getByDateRange(from, to);
+            int no = 1;
             for (Laporan rpt : list) {
                 m.addRow(new Object[]{
-                    rpt.getIdLaporan(),
+                    no++,
                     rpt.getNamaBuku(),
                     rpt.getNamaPengguna(),
                     rpt.getTglPinjam(),

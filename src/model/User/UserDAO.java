@@ -166,5 +166,22 @@ public class UserDAO {
             return 0;
         }
     }
+    
+    //ubah akun admin
+    public boolean updateAdmin(User user, String username) {
+        String sql = "UPDATE users SET namaPengguna = ?, passwordPengguna = ?, emailPengguna = ?, nomorTeleponPengguna = ? WHERE namaPengguna = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, user.getNamaPengguna());
+            ps.setString(2, user.getPasswordPengguna());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getnomorTelepon());
+            ps.setString(5, username); 
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 
 }

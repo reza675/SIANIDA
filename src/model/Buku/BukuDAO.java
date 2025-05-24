@@ -388,4 +388,25 @@ public class BukuDAO implements InterfaceBukuDAO {
         return null;
     }
 
+    public List<Buku> getByPending(String username) throws SQLException {
+        List<Buku> list = new ArrayList<>();
+        String sql = "SELECT pb.idBuku, pb.jumlah, b.namaBuku, u.namaPengguna, pb.tgl_Pinjam, pb.tgl_Kembali FROM peminjamanbuku pb JOIN detailBuku b On pb.idBuku = b.idBuku JOIN users u ON pb.id = u.id WHERE pb.tgl_Pengembalian is NULL";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Buku bkP = new Buku(
+                            rs.getInt("idBuku"),
+                            rs.getString("namaBuku"),
+                            rs.getInt("jumlah"),
+                            rs.getString("namaPengguna"),
+                            rs.getDate("tgl_Pinjam"),
+                            rs.getDate("tgl_Kembali")
+                    );
+                    list.add(bkP);
+                }
+            }
+        }
+        return list;
+    }
+
 }

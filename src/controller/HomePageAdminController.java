@@ -82,9 +82,10 @@ public class HomePageAdminController extends AbstractHomePageController {
         DefaultTableModel tableModel = (DefaultTableModel) view.getTblModelUser();
         tableModel.setRowCount(0);
         List<User> list = userDao.getAllUser();
+        int no = 1;
         for (User u : list) {
             Object[] row = {
-                u.getIdUser(), u.getNamaPengguna(), u.getnomorTelepon()
+                no++,u.getIdUser(), u.getNamaPengguna(), u.getnomorTelepon()
             };
             tableModel.addRow(row);
         }

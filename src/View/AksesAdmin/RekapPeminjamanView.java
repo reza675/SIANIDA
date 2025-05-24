@@ -1,9 +1,6 @@
 package View.AksesAdmin;
 
-import Controller.BukuUserController;
 import Controller.RekapPeminjamanController;
-import View.AksesAdmin.HomePageAdminView;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -69,7 +66,7 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nama Buku", "Nama Peminjam", "Tanggal Pinjam", "Jatuh Tempo", "Pengembalian"
+                "No", "Nama Buku", "Nama Peminjam", "Tanggal Pinjam", "Jatuh Tempo", "Pengembalian"
             }
         ));
         tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
