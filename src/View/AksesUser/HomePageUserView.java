@@ -137,6 +137,8 @@ public class HomePageUserView extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         bukuSIANIDA = new javax.swing.JLabel();
@@ -265,7 +267,7 @@ public class HomePageUserView extends javax.swing.JFrame {
         jLabel9.setText("   Logout");
         jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 240, 30));
 
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 340, 60));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 300, 60));
 
         jPanel8.setBackground(new java.awt.Color(159, 151, 129));
         jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -319,6 +321,27 @@ public class HomePageUserView extends javax.swing.JFrame {
         jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 240, 30));
 
         jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 300, 60));
+
+        jPanel14.setBackground(new java.awt.Color(159, 151, 129));
+        jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel14MouseClicked(evt);
+            }
+        });
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-library-24.png"))); // NOI18N
+        jLabel13.setText("   Tentang SIANIDA");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+        jPanel14.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 250, 30));
+
+        jPanel3.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 300, 60));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 300, 830));
 
@@ -449,6 +472,18 @@ public class HomePageUserView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jPanel6MouseClicked
 
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        AboutPageView aboutPage = new AboutPageView(username);
+        aboutPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
+        AboutPageView aboutPage = new AboutPageView(username);
+        aboutPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel14MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -493,6 +528,7 @@ public class HomePageUserView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -509,6 +545,7 @@ public class HomePageUserView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

@@ -5,6 +5,7 @@
         <group>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesUser/PengembalianBukuUserView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesAdmin/ManajemenBukuView.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesUser/AboutPageView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Sianida/Main.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/Buku/BukuDAO.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesUser/PinjamBukuUserView.java</file>
@@ -19,6 +20,7 @@
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesUser/AkunUserView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesAdmin/RekapPeminjamanView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/AkunAdminController.java</file>
+            <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/View/AksesAdmin/AboutPageView.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/BukuPendingController.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Controller/BukuUserController.java</file>
             <file>file:/D:/REZA/SEMESTER%204/Praktikum%20PBO/netbeans/SIANIDA/SIANIDA/src/Model/User/UserDAO.java</file>

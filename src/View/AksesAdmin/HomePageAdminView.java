@@ -174,6 +174,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         bukuSIANIDA = new javax.swing.JLabel();
@@ -319,7 +320,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         });
         jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 30));
 
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 360, 60));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 660, 360, 60));
 
         jPanel8.setBackground(new java.awt.Color(159, 151, 129));
         jPanel8.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -412,15 +413,26 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-administrator-male-30.png"))); // NOI18N
-        jLabel12.setText("    Akun Admin");
+        jLabel12.setText("   Akun Admin");
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel12MouseClicked(evt);
             }
         });
-        jPanel20.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 30));
+        jPanel20.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 240, 40));
 
         jPanel3.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 360, 60));
+
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8-library-24.png"))); // NOI18N
+        jLabel13.setText("    Tentang SIANIDA");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 600, 250, 30));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 75, 360, 910));
 
@@ -662,6 +674,12 @@ public class HomePageAdminView extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jLabel29MouseClicked
 
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        AboutPageView aboutPage = new AboutPageView(username);
+        aboutPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel13MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -708,6 +726,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
