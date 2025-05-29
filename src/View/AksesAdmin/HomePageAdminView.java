@@ -194,11 +194,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         belumSIANIDA = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         panelPieChart = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        detailPengguna = new rojeru_san.complementos.RSTableMetro();
         jLabel15 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        detailSianida = new rojeru_san.complementos.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -540,76 +536,10 @@ public class HomePageAdminView extends javax.swing.JFrame {
         panelPieChart.setLayout(new java.awt.BorderLayout());
         jPanel11.add(panelPieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 330, 390, 300));
 
-        detailPengguna.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "No", " ID User", "Nama Pengguna", "Nomor Telepon"
-            }
-        ));
-        detailPengguna.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
-        detailPengguna.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        detailPengguna.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        detailPengguna.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        detailPengguna.setColorSelBackgound(new java.awt.Color(235, 206, 148));
-        detailPengguna.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
-        detailPengguna.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        detailPengguna.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        detailPengguna.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        detailPengguna.setRowHeight(40);
-        detailPengguna.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                detailPenggunaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(detailPengguna);
-        if (detailPengguna.getColumnModel().getColumnCount() > 0) {
-            detailPengguna.getColumnModel().getColumn(0).setMinWidth(75);
-            detailPengguna.getColumnModel().getColumn(0).setMaxWidth(75);
-            detailPengguna.getColumnModel().getColumn(1).setMinWidth(100);
-            detailPengguna.getColumnModel().getColumn(1).setMaxWidth(100);
-        }
-
-        jPanel11.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 720, 220));
-
         jLabel15.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(102, 102, 102));
         jLabel15.setText("Detail Buku SIANIDA");
         jPanel11.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, -1, -1));
-
-        detailSianida.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nama Buku", "Penulis", "Jumlah", "Kategori"
-            }
-        ));
-        detailSianida.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
-        detailSianida.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        detailSianida.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        detailSianida.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        detailSianida.setColorSelBackgound(new java.awt.Color(235, 206, 148));
-        detailSianida.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
-        detailSianida.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        detailSianida.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        detailSianida.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        detailSianida.setRowHeight(40);
-        detailSianida.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                detailSianidaMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(detailSianida);
-        if (detailSianida.getColumnModel().getColumnCount() > 0) {
-            detailSianida.getColumnModel().getColumn(0).setMinWidth(75);
-            detailSianida.getColumnModel().getColumn(0).setMaxWidth(75);
-            detailSianida.getColumnModel().getColumn(3).setMinWidth(100);
-            detailSianida.getColumnModel().getColumn(3).setMaxWidth(100);
-        }
-
-        jPanel11.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 720, 240));
 
         getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 75, 1364, 910));
 
@@ -621,7 +551,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelMouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        ManajemenBukuView manajemenBuku = new ManajemenBukuView(username);
+        ManajemenPenggunaView manajemenBuku = new ManajemenPenggunaView(username);
         manajemenBuku.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel10MouseClicked
@@ -719,8 +649,6 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JLabel admin;
     private javax.swing.JLabel belumSIANIDA;
     private javax.swing.JLabel bukuSIANIDA;
-    private rojeru_san.complementos.RSTableMetro detailPengguna;
-    private rojeru_san.complementos.RSTableMetro detailSianida;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -767,8 +695,6 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelPieChart;
     private javax.swing.JLabel rekapSIANIDA;
     private javax.swing.JLabel userSIANIDA;

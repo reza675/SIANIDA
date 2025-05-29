@@ -408,5 +408,5 @@ public class BukuDAO implements InterfaceBukuDAO {
         }
         return list;
     }
-
+   
 }

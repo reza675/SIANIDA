@@ -70,6 +70,22 @@ public class UserDAO {
         }
     }
 
+    public boolean isUserExist(User user) {
+        String sql = "SELECT COUNT(*) FROM users WHERE namaPengguna = ? OR emailPengguna = ? OR nomorTeleponPengguna = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, user.getNamaPengguna());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getnomorTelepon());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //insert user
     public boolean insertUser(User user) {
         String sql = "INSERT INTO users(namaPengguna, passwordPengguna, emailPengguna, nomorTeleponPengguna, idRole) VALUES (?, ?, ?, ?, ?)";
@@ -137,6 +153,32 @@ public class UserDAO {
         }
     }
 
+    //buat update akun user
+    public boolean updateUserFromAdmin(User user) {
+        String sql = "UPDATE users SET namaPengguna = ?, emailPengguna = ?, nomorTeleponPengguna = ? WHERE id = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, user.getNamaPengguna());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getnomorTelepon());
+            ps.setInt(4, user.getIdUser());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteUser(int idUser) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, idUser);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Hapus error: " + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
     //ngambil dataUser
     public List<User> getAllUser() {
         List<User> list = new ArrayList<>();
@@ -156,6 +198,7 @@ public class UserDAO {
         }
         return list;
     }
+
     //ngitung total user
     public int countAllUser() throws SQLException {
         String sql = "SELECT COUNT(*) FROM users WHERE idRole !=1";
@@ -166,22 +209,38 @@ public class UserDAO {
             return 0;
         }
     }
-    
+
     //ubah akun admin
     public boolean updateAdmin(User user, String username) {
         String sql = "UPDATE users SET namaPengguna = ?, passwordPengguna = ?, emailPengguna = ?, nomorTeleponPengguna = ? WHERE namaPengguna = ?";
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, user.getNamaPengguna());
             ps.setString(2, user.getPasswordPengguna());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getnomorTelepon());
-            ps.setString(5, username); 
+            ps.setString(5, username);
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
+    }
+     public List<User> getPeminjamAktif() throws SQLException {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT u.namaPengguna, SUM(pb.jumlah) AS banyak_peminjaman FROM peminjamanbuku pb JOIN users u ON pb.id = u.id WHERE pb.tgl_pengembalian IS NULL GROUP BY u.id, u.namaPengguna";
+
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User u = new User(
+                            rs.getString("namaPengguna"),
+                            rs.getInt("banyak_peminjaman")
+                    );
+                    list.add(u);
+                }
+            }
+        }
+        return list;
     }
 
 }

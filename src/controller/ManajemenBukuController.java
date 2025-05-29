@@ -6,7 +6,7 @@ package Controller;
 
 import Model.Buku.Buku;
 import Model.Buku.BukuDAO;
-import View.AksesAdmin.ManajemenBukuView;
+import View.AksesAdmin.ManajemenPenggunaView;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,10 +17,10 @@ import javax.swing.table.DefaultTableModel;
 public class ManajemenBukuController {
 
     private BukuDAO dao;
-    private ManajemenBukuView view;
+    private ManajemenPenggunaView view;
     private String username;
 
-    public ManajemenBukuController(ManajemenBukuView view, String username) {
+    public ManajemenBukuController(ManajemenPenggunaView view, String username) {
         this.dao = new BukuDAO();
         this.view = view;
         this.username = username;

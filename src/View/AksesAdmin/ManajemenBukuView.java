@@ -56,30 +56,20 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        text_idbuku = new app.bolivia.swing.JCTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        text_namabuku = new app.bolivia.swing.JCTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        text_penulis = new app.bolivia.swing.JCTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        text_jumlah = new app.bolivia.swing.JCTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        tambahBuku = new rojerusan.RSMaterialButtonRectangle();
-        hapusBuku = new rojerusan.RSMaterialButtonRectangle();
-        editBuku = new rojerusan.RSMaterialButtonRectangle();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        text_kategori = new app.bolivia.swing.JCTextField();
         jPanel5 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_detailBuku = new rojeru_san.complementos.RSTableMetro();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
@@ -143,17 +133,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 40));
 
-        text_idbuku.setBackground(new java.awt.Color(200, 172, 144));
-        text_idbuku.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_idbuku.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        text_idbuku.setPlaceholder("Masukkan Id Buku...");
-        text_idbuku.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                text_idbukuFocusLost(evt);
-            }
-        });
-        jPanel2.add(text_idbuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 300, 40));
-
         jLabel9.setBackground(new java.awt.Color(240, 240, 240));
         jLabel9.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -165,17 +144,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("ID Buku");
         jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 90, 20));
-
-        text_namabuku.setBackground(new java.awt.Color(200, 172, 144));
-        text_namabuku.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_namabuku.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        text_namabuku.setPlaceholder("Masukkan nama buku...");
-        text_namabuku.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                text_namabukuFocusLost(evt);
-            }
-        });
-        jPanel2.add(text_namabuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 300, 40));
 
         jLabel10.setBackground(new java.awt.Color(240, 240, 240));
         jLabel10.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -189,17 +157,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jLabel14.setText("Nama Buku");
         jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 90, 20));
 
-        text_penulis.setBackground(new java.awt.Color(200, 172, 144));
-        text_penulis.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_penulis.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        text_penulis.setPlaceholder("Masukkan penulis buku...");
-        text_penulis.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                text_penulisFocusLost(evt);
-            }
-        });
-        jPanel2.add(text_penulis, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 300, 40));
-
         jLabel11.setBackground(new java.awt.Color(240, 240, 240));
         jLabel11.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -211,17 +168,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Penulis Buku");
         jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 110, 20));
-
-        text_jumlah.setBackground(new java.awt.Color(200, 172, 144));
-        text_jumlah.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_jumlah.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        text_jumlah.setPlaceholder("Masukkan jumlah buku...");
-        text_jumlah.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                text_jumlahFocusLost(evt);
-            }
-        });
-        jPanel2.add(text_jumlah, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 370, 300, 40));
 
         jLabel12.setBackground(new java.awt.Color(240, 240, 240));
         jLabel12.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -235,36 +181,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jLabel16.setText("Jumlah Buku");
         jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 120, 20));
 
-        tambahBuku.setBackground(new java.awt.Color(22, 206, 12));
-        tambahBuku.setText("Tambah Buku");
-        tambahBuku.setFont(new java.awt.Font("Roboto Medium", 1, 20)); // NOI18N
-        tambahBuku.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tambahBukuActionPerformed(evt);
-            }
-        });
-        jPanel2.add(tambahBuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 170, 70));
-
-        hapusBuku.setBackground(new java.awt.Color(255, 0, 0));
-        hapusBuku.setText("hapus buku");
-        hapusBuku.setFont(new java.awt.Font("Roboto Medium", 1, 20)); // NOI18N
-        hapusBuku.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hapusBukuActionPerformed(evt);
-            }
-        });
-        jPanel2.add(hapusBuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 600, 170, 70));
-
-        editBuku.setBackground(new java.awt.Color(35, 0, 255));
-        editBuku.setText("edit buku");
-        editBuku.setFont(new java.awt.Font("Roboto Medium", 1, 20)); // NOI18N
-        editBuku.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editBukuActionPerformed(evt);
-            }
-        });
-        jPanel2.add(editBuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 510, 170, 70));
-
         jLabel17.setBackground(new java.awt.Color(240, 240, 240));
         jLabel17.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
@@ -276,22 +192,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarTambahBukuIcons/icons8-books-24.png"))); // NOI18N
         jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 30, 40));
-
-        text_kategori.setBackground(new java.awt.Color(200, 172, 144));
-        text_kategori.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_kategori.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        text_kategori.setPlaceholder("Masukkan kategori buku...");
-        text_kategori.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                text_kategoriFocusLost(evt);
-            }
-        });
-        text_kategori.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                text_kategoriActionPerformed(evt);
-            }
-        });
-        jPanel2.add(text_kategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 450, 300, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 720));
 
@@ -321,39 +221,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         jPanel8.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 3, 30, 30));
 
         jPanel5.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 70, 40));
-
-        tbl_detailBuku.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID Buku", "Nama Buku", "Penulis", "Jumlah", "Kategori"
-            }
-        ));
-        tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
-        tbl_detailBuku.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        tbl_detailBuku.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        tbl_detailBuku.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        tbl_detailBuku.setColorSelBackgound(new java.awt.Color(235, 206, 148));
-        tbl_detailBuku.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
-        tbl_detailBuku.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        tbl_detailBuku.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        tbl_detailBuku.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        tbl_detailBuku.setRowHeight(40);
-        tbl_detailBuku.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_detailBukuMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbl_detailBuku);
-        if (tbl_detailBuku.getColumnModel().getColumnCount() > 0) {
-            tbl_detailBuku.getColumnModel().getColumn(0).setMinWidth(100);
-            tbl_detailBuku.getColumnModel().getColumn(0).setMaxWidth(100);
-            tbl_detailBuku.getColumnModel().getColumn(3).setMinWidth(100);
-            tbl_detailBuku.getColumnModel().getColumn(3).setMaxWidth(100);
-        }
-
-        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 780, 300));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(136, 107, 70));
@@ -552,6 +419,8 @@ public class ManajemenBukuView extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -562,8 +431,6 @@ public class ManajemenBukuView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private rojerusan.RSMaterialButtonRectangle editBuku;
-    private rojerusan.RSMaterialButtonRectangle hapusBuku;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -587,13 +454,5 @@ public class ManajemenBukuView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private rojerusan.RSMaterialButtonRectangle tambahBuku;
-    private rojeru_san.complementos.RSTableMetro tbl_detailBuku;
-    private app.bolivia.swing.JCTextField text_idbuku;
-    private app.bolivia.swing.JCTextField text_jumlah;
-    private app.bolivia.swing.JCTextField text_kategori;
-    private app.bolivia.swing.JCTextField text_namabuku;
-    private app.bolivia.swing.JCTextField text_penulis;
     // End of variables declaration//GEN-END:variables
 }

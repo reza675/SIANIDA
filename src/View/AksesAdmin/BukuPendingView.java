@@ -47,8 +47,6 @@ public class BukuPendingView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_detailBuku = new rojeru_san.complementos.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -108,39 +106,6 @@ public class BukuPendingView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(136, 107, 70));
         jPanel2.setForeground(new java.awt.Color(136, 107, 70));
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 400, 5));
-
-        tbl_detailBuku.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "No", "Nama Buku", "Jumlah", "Nama Peminjam", "Tanggal Pinjam", "Jatuh Tempo"
-            }
-        ));
-        tbl_detailBuku.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
-        tbl_detailBuku.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
-        tbl_detailBuku.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
-        tbl_detailBuku.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
-        tbl_detailBuku.setColorSelBackgound(new java.awt.Color(235, 206, 148));
-        tbl_detailBuku.setFont(new java.awt.Font("Yu Gothic Light", 0, 25)); // NOI18N
-        tbl_detailBuku.setFuenteFilas(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        tbl_detailBuku.setFuenteFilasSelect(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        tbl_detailBuku.setFuenteHead(new java.awt.Font("Yu Gothic UI Semibold", 1, 20)); // NOI18N
-        tbl_detailBuku.setRowHeight(40);
-        tbl_detailBuku.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_detailBukuMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbl_detailBuku);
-        if (tbl_detailBuku.getColumnModel().getColumnCount() > 0) {
-            tbl_detailBuku.getColumnModel().getColumn(0).setMinWidth(70);
-            tbl_detailBuku.getColumnModel().getColumn(0).setMaxWidth(70);
-            tbl_detailBuku.getColumnModel().getColumn(2).setMinWidth(100);
-            tbl_detailBuku.getColumnModel().getColumn(2).setMaxWidth(100);
-        }
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 1180, 520));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 720));
 
@@ -210,7 +175,5 @@ public class BukuPendingView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private rojeru_san.complementos.RSTableMetro tbl_detailBuku;
     // End of variables declaration//GEN-END:variables
 }
