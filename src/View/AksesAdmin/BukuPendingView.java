@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author ASUS
@@ -18,17 +17,17 @@ public class BukuPendingView extends javax.swing.JFrame {
 
     private String username;
     private BukuPendingController controller;
+
     public BukuPendingView(String username) {
         this.username = username;
         initComponents();
-        controller = new BukuPendingController(this,username);
+        controller = new BukuPendingController(this, username);
         controller.loadTableP();
     }
-    
-     public DefaultTableModel getTblModel() {
+
+    public DefaultTableModel getTblModel() {
         return (DefaultTableModel) tbl_detailBuku.getModel();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -191,7 +190,7 @@ public class BukuPendingView extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BukuPendingView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        //</editor-fold>    
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

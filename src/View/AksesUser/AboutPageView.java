@@ -24,13 +24,11 @@ public class AboutPageView extends javax.swing.JFrame {
                 + "pegiat literasi untuk saling berbagi pengetahuan, karya, dan inspirasi. Mulai dari artikel "
                 + "edukatif, ulasan buku, hingga wadah diskusi literasi—semuanya tersedia dalam satu sistem yang "
                 + "mudah diakses dan ramah pengguna.<br><br>"
-                + "Fitur Admin:<br>"
-                + "1. Manajemen Buku <br>"
-                + "2. Manajemen Pengguna<br>"
-                + "3. Rekap Peminjaman<br>"
-                + "4. Peminjaman Pending<br>"
-                + "5. Belum Dikembalikan<br>"
-                + "6. Akun Admin<br> </html>"
+                + "Fitur User:<br>"
+                + "1. Pinjam Buku <br>"
+                + "2. Buku Saya<br>"
+                + "3. Pengembalian Buku<br>"
+                + "4. Akun Saya<html>"
         );
 
     }
@@ -61,6 +59,11 @@ public class AboutPageView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         aboutLabel = new javax.swing.JLabel();
+        waReza = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        linkIGReza = new javax.swing.JLabel();
+        linkIGAdi = new javax.swing.JLabel();
+        waAdi = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -169,7 +172,54 @@ public class AboutPageView extends javax.swing.JFrame {
         aboutLabel.setForeground(new java.awt.Color(0, 0, 0));
         aboutLabel.setText("jLabel10");
         aboutLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel5.add(aboutLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 700, 510));
+        jPanel5.add(aboutLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 700, 370));
+
+        waReza.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        waReza.setForeground(new java.awt.Color(136, 107, 70));
+        waReza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarTambahBukuIcons/icons8-whatsapp-48.png"))); // NOI18N
+        waReza.setText("081227213841 (Reza)");
+        waReza.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                waRezaMouseClicked(evt);
+            }
+        });
+        jPanel5.add(waReza, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, 250, 40));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("Hubungi Kami:");
+        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 150, 30));
+
+        linkIGReza.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        linkIGReza.setForeground(new java.awt.Color(51, 153, 255));
+        linkIGReza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarTambahBukuIcons/icons8-instagram-48.png"))); // NOI18N
+        linkIGReza.setText("@_rerap");
+        linkIGReza.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                linkIGRezaMouseClicked(evt);
+            }
+        });
+        jPanel5.add(linkIGReza, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, 150, 40));
+
+        linkIGAdi.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        linkIGAdi.setForeground(new java.awt.Color(51, 153, 255));
+        linkIGAdi.setText("@adi.stya_");
+        linkIGAdi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                linkIGAdiMouseClicked(evt);
+            }
+        });
+        jPanel5.add(linkIGAdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 510, 130, 30));
+
+        waAdi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        waAdi.setForeground(new java.awt.Color(136, 107, 70));
+        waAdi.setText("088221135296 (Adi)");
+        waAdi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                waAdiMouseClicked(evt);
+            }
+        });
+        jPanel5.add(waAdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 510, 250, 40));
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 760, 550));
 
@@ -196,6 +246,38 @@ public class AboutPageView extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         System.exit(0);
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void waRezaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_waRezaMouseClicked
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://wa.me/6281227213841"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_waRezaMouseClicked
+
+    private void linkIGRezaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkIGRezaMouseClicked
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://instagram.com/_rerap"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_linkIGRezaMouseClicked
+
+    private void linkIGAdiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_linkIGAdiMouseClicked
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://instagram.com/adi.stya_"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_linkIGAdiMouseClicked
+
+    private void waAdiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_waAdiMouseClicked
+        try {
+            java.awt.Desktop.getDesktop().browse(new java.net.URI("https://wa.me/088221135296"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_waAdiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -235,6 +317,7 @@ public class AboutPageView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel aboutLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -250,5 +333,9 @@ public class AboutPageView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JLabel linkIGAdi;
+    private javax.swing.JLabel linkIGReza;
+    private javax.swing.JLabel waAdi;
+    private javax.swing.JLabel waReza;
     // End of variables declaration//GEN-END:variables
 }
