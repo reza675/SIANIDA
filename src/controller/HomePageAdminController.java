@@ -64,6 +64,17 @@ public class HomePageAdminController extends AbstractHomePageController {
             return 0;
         }
     }
+    
+    public int getTotalPeminjam() {
+        try {
+            return dao.countAllPeminjam();
+        } catch (SQLException ex) {
+            view.showError("Error mengambil total buku: " + ex.getMessage());
+            return 0;
+        }
+    }
+    
+    
 
     public List<User> fetchAllUser() {
         return userDao.getAllUser();

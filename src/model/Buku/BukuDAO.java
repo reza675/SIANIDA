@@ -14,7 +14,6 @@ import java.util.List;
  * @author ASUS
  */
 public class BukuDAO implements InterfaceBukuDAO {
-
     //nampilin buku milik SIANIDA
     @Override
     public List<Buku> getAllBuku() {
@@ -46,9 +45,19 @@ public class BukuDAO implements InterfaceBukuDAO {
             return 0;
         }
     }
-
+    //nampilin total rekap
     public int countAllRekap() throws SQLException {
         String sql = "SELECT COUNT(*) FROM laporanpengembalian";
+        try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+    //nampilin total peminjam aktif
+    public int countAllPeminjam() throws SQLException {
+        String sql = "SELECT COUNT(DISTINCT id) FROM peminjamanbuku";
         try (Connection con = DBConnection.getConnection(); PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
@@ -408,5 +417,5 @@ public class BukuDAO implements InterfaceBukuDAO {
         }
         return list;
     }
-
+   
 }

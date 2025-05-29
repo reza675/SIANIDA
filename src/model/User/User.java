@@ -10,12 +10,13 @@ package Model.User;
  */
 public class User {
 
-    private final int idUser;
+    private int idUser;
     private String namaPengguna;
     private String passwordPengguna;
     private String email;
     private String nomorTelepon;
     private int idRole;
+    private int jumlahPeminjaman;
 
     //buat login
     public User(int idUser, String namaPengguna, String passwordPengguna, String emailPengguna, String nomorTeleponPengguna, int idRole) {
@@ -36,6 +37,7 @@ public class User {
         this.nomorTelepon = nomorTeleponPengguna;
         this.idRole = 2;
     }
+
     //buat akun user
     public User(int idUser, String namaPengguna, String passwordPengguna, String emailPengguna, String nomorTeleponPengguna) {
         this.idUser = idUser;
@@ -43,6 +45,31 @@ public class User {
         this.passwordPengguna = passwordPengguna;
         this.email = emailPengguna;
         this.nomorTelepon = nomorTeleponPengguna;
+    }
+    //edit akun user
+
+    public User(int idUser, String namaPengguna, String emailPengguna, String nomorTeleponPengguna) {
+        this.idUser = idUser;
+        this.namaPengguna = namaPengguna;
+        this.email = emailPengguna;
+        this.nomorTelepon = nomorTeleponPengguna;
+    }
+
+    public User(String namaPengguna, int jumlahPeminjaman) {
+        this.namaPengguna = namaPengguna;
+        this.jumlahPeminjaman = jumlahPeminjaman;
+    }
+
+    public int getJumlahPeminjaman() {
+        return jumlahPeminjaman;
+    }
+
+    public void setJumlahPeminjaman(int jumlahPeminjaman) {
+        this.jumlahPeminjaman = jumlahPeminjaman;
+    }
+
+    public void setidUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public int getIdUser() {

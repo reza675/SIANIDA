@@ -43,6 +43,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         hitungBukuSianida();
         hitungUser();
         hitungRekap();
+        hitungPeminjamAktif();
         controller.loadTable();
         controller.loadTableUser();
         List<Buku> data = controller.fetchAllBuku();
@@ -87,6 +88,10 @@ public class HomePageAdminView extends javax.swing.JFrame {
     public void hitungRekap() {
         int totalUser = controller.getTotalRekap();
         rekapSIANIDA.setText(String.valueOf(totalUser));
+    }
+    public void hitungPeminjamAktif() {
+        int totalPeminjam = controller.getTotalPeminjam();
+        peminjamSIANIDA.setText(String.valueOf(totalPeminjam));
     }
 
     public void showError(String msg) {
@@ -191,7 +196,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jPanel17 = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
-        belumSIANIDA = new javax.swing.JLabel();
+        peminjamSIANIDA = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         panelPieChart = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -302,6 +307,11 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarAdminIcons/icons8_Read_Online_26px.png"))); // NOI18N
         jLabel18.setText("    Manajemen Pengguna");
+        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel18MouseClicked(evt);
+            }
+        });
         jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 13, 250, 30));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 360, 60));
@@ -381,7 +391,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_Conference_26px.png"))); // NOI18N
-        jLabel19.setText("    Belum Dikembalikan");
+        jLabel19.setText("    Peminjam Aktif");
         jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel19MouseClicked(evt);
@@ -523,17 +533,17 @@ public class HomePageAdminView extends javax.swing.JFrame {
         jPanel18.setBorder(javax.swing.BorderFactory.createMatteBorder(15, 0, 0, 0, new java.awt.Color(162, 132, 94)));
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        belumSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
-        belumSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
-        belumSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_List_of_Thumbnails_50px.png"))); // NOI18N
-        belumSIANIDA.setText("10");
-        jPanel18.add(belumSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 140, -1));
+        peminjamSIANIDA.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        peminjamSIANIDA.setForeground(new java.awt.Color(102, 102, 102));
+        peminjamSIANIDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Assets/gambarAdminIcons/icons8_List_of_Thumbnails_50px.png"))); // NOI18N
+        peminjamSIANIDA.setText("10");
+        jPanel18.add(peminjamSIANIDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 140, -1));
 
         jPanel11.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 40, 210, 140));
 
         jLabel28.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel28.setText("Belum Dikembalikan");
+        jLabel28.setText("Peminjam Aktif");
         jPanel11.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
 
         panelPieChart.setFocusable(false);
@@ -665,7 +675,9 @@ public class HomePageAdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
-        
+        PeminjamAktifView pa = new PeminjamAktifView(username);
+        pa.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jLabel19MouseClicked
 
     private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
@@ -679,6 +691,12 @@ public class HomePageAdminView extends javax.swing.JFrame {
         aboutPage.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
+        ManajemenPenggunaView mp = new ManajemenPenggunaView(username);
+        mp.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel18MouseClicked
 
     /**
      * @param args the command line arguments
@@ -717,7 +735,6 @@ public class HomePageAdminView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel admin;
-    private javax.swing.JLabel belumSIANIDA;
     private javax.swing.JLabel bukuSIANIDA;
     private rojeru_san.complementos.RSTableMetro detailPengguna;
     private rojeru_san.complementos.RSTableMetro detailSianida;
@@ -770,6 +787,7 @@ public class HomePageAdminView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelPieChart;
+    private javax.swing.JLabel peminjamSIANIDA;
     private javax.swing.JLabel rekapSIANIDA;
     private javax.swing.JLabel userSIANIDA;
     // End of variables declaration//GEN-END:variables
