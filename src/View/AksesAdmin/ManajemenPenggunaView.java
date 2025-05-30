@@ -171,13 +171,13 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarIcons/icon8-mail-24.png"))); // NOI18N
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 30, 40));
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 30, 40));
 
         jLabel15.setBackground(new java.awt.Color(240, 240, 240));
         jLabel15.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Email");
-        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 110, 20));
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 110, 20));
 
         jLabel12.setBackground(new java.awt.Color(240, 240, 240));
         jLabel12.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
@@ -193,13 +193,14 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
 
         text_Nama.setBackground(new java.awt.Color(200, 172, 144));
         text_Nama.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        text_Nama.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         text_Nama.setPlaceholder("Masukkan Nama...");
         text_Nama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 text_NamaActionPerformed(evt);
             }
         });
-        jPanel2.add(text_Nama, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 260, -1));
+        jPanel2.add(text_Nama, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 260, -1));
 
         HapusUser.setBackground(new java.awt.Color(255, 0, 0));
         HapusUser.setText("Hapus User");
@@ -232,18 +233,31 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
 
         text_Email.setBackground(new java.awt.Color(200, 172, 144));
         text_Email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        text_Email.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         text_Email.setPlaceholder("Masukkan Email...");
+        text_Email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_EmailActionPerformed(evt);
+            }
+        });
         jPanel2.add(text_Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 260, -1));
 
         text_Telp.setBackground(new java.awt.Color(200, 172, 144));
         text_Telp.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        text_Telp.setPlaceholder("Masukkan No Telp...");
+        text_Telp.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        text_Telp.setPlaceholder("Masukkan No Telepon...");
+        text_Telp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_TelpActionPerformed(evt);
+            }
+        });
         jPanel2.add(text_Telp, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 260, -1));
 
         text_idUser.setBackground(new java.awt.Color(200, 172, 144));
         text_idUser.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        text_idUser.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         text_idUser.setPlaceholder("Masukkan ID...");
-        jPanel2.add(text_idUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 260, -1));
+        jPanel2.add(text_idUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 260, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 720));
 
@@ -309,11 +323,11 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_detailPengguna);
         if (tbl_detailPengguna.getColumnModel().getColumnCount() > 0) {
-            tbl_detailPengguna.getColumnModel().getColumn(0).setMinWidth(75);
-            tbl_detailPengguna.getColumnModel().getColumn(0).setMaxWidth(75);
+            tbl_detailPengguna.getColumnModel().getColumn(0).setMinWidth(65);
+            tbl_detailPengguna.getColumnModel().getColumn(0).setMaxWidth(65);
         }
 
-        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 660, -1));
+        jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 740, -1));
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 800, 720));
 
@@ -368,7 +382,7 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                    "Mohon Isi Semua Field",
+                    "Semua field wajib diisi dan sesuai dengan format",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_TambahPenggunaActionPerformed
@@ -449,6 +463,14 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
         EditUser.setEnabled(true);
         HapusUser.setEnabled(true);
     }//GEN-LAST:event_tbl_detailPenggunaMouseClicked
+
+    private void text_EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_EmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_EmailActionPerformed
+
+    private void text_TelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_TelpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_TelpActionPerformed
 
     /**
      * @param args the command line arguments

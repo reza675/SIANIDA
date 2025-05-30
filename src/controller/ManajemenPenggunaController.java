@@ -50,7 +50,6 @@ public class ManajemenPenggunaController {
                 view.showWarning("Nomor telepon harus 10–13 digit angka.", "Format Nomor Salah");
                 return;
             }
-
             boolean sukses = dao.insertUser(p);
             if (sukses) {
                 view.showMessage("User berhasil ditambahkan.");

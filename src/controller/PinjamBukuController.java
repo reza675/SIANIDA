@@ -44,6 +44,7 @@ public class PinjamBukuController {
             dao.recordBorrow(username, idBuku, nama, penulis, jumlah);  
             loadTable();
             view.showMessage("Berhasil meminjam buku!");
+            
         } catch (SQLException ex) {
             view.showError("Gagal meminjam: " + ex.getMessage());
         }

@@ -1,6 +1,9 @@
 package View.AksesAdmin;
 
 import Controller.RekapPeminjamanController;
+import com.raven.datechooser.SelectedDate;
+import java.sql.Date;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,6 +40,8 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        datePinjam = new com.raven.datechooser.DateChooser();
+        dateTempo = new com.raven.datechooser.DateChooser();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_detailBuku = new rojeru_san.complementos.RSTableMetro();
@@ -48,11 +53,19 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        tglKembali = new rojeru_san.componentes.RSDateChooser();
-        tglPinjam = new rojeru_san.componentes.RSDateChooser();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         cariTanggal = new rojerusan.RSMaterialButtonCircle();
+        tglPinjam = new app.bolivia.swing.JCTextField();
+        buttonPinjam = new javax.swing.JButton();
+        tglKembali = new app.bolivia.swing.JCTextField();
+        buttonTempo = new javax.swing.JButton();
+
+        datePinjam.setForeground(new java.awt.Color(82, 55, 29));
+        datePinjam.setTextRefernce(tglPinjam);
+
+        dateTempo.setForeground(new java.awt.Color(82, 55, 29));
+        dateTempo.setTextRefernce(tglKembali);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -151,30 +164,6 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, 400, 5));
 
-        tglKembali.setBackground(new java.awt.Color(200, 172, 144));
-        tglKembali.setForeground(new java.awt.Color(200, 172, 144));
-        tglKembali.setColorBackground(new java.awt.Color(82, 55, 29));
-        tglKembali.setColorButtonHover(new java.awt.Color(181, 117, 59));
-        tglKembali.setColorDiaActual(new java.awt.Color(181, 115, 38));
-        tglKembali.setColorForeground(new java.awt.Color(0, 0, 0));
-        tglKembali.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        tglKembali.setColorTextDiaActual(new java.awt.Color(200, 172, 144));
-        tglKembali.setFormatoFecha("dd/MM/yyyy");
-        tglKembali.setPlaceholder("Pilih tanggal");
-        jPanel3.add(tglKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 160, 330, 40));
-
-        tglPinjam.setBackground(new java.awt.Color(200, 172, 144));
-        tglPinjam.setForeground(new java.awt.Color(200, 172, 144));
-        tglPinjam.setColorBackground(new java.awt.Color(82, 55, 29));
-        tglPinjam.setColorButtonHover(new java.awt.Color(181, 117, 59));
-        tglPinjam.setColorDiaActual(new java.awt.Color(181, 115, 38));
-        tglPinjam.setColorForeground(new java.awt.Color(0, 0, 0));
-        tglPinjam.setColorSelForeground(new java.awt.Color(0, 0, 0));
-        tglPinjam.setColorTextDiaActual(new java.awt.Color(200, 172, 144));
-        tglPinjam.setFormatoFecha("dd/MM/yyyy");
-        tglPinjam.setPlaceholder("Pilih tanggal");
-        jPanel3.add(tglPinjam, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 330, 40));
-
         jLabel18.setBackground(new java.awt.Color(240, 240, 240));
         jLabel18.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
@@ -195,6 +184,54 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
             }
         });
         jPanel3.add(cariTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 200, 210, 70));
+
+        tglPinjam.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(82, 55, 29)));
+        tglPinjam.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        tglPinjam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tglPinjamMouseClicked(evt);
+            }
+        });
+        tglPinjam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tglPinjamActionPerformed(evt);
+            }
+        });
+        jPanel3.add(tglPinjam, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 265, 40));
+
+        buttonPinjam.setBackground(new java.awt.Color(82, 55, 29));
+        buttonPinjam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarTambahBukuIcons/icons8-calendar-32.png"))); // NOI18N
+        buttonPinjam.setFocusable(false);
+        buttonPinjam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonPinjamMouseClicked(evt);
+            }
+        });
+        jPanel3.add(buttonPinjam, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 155, 60, 50));
+
+        tglKembali.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(82, 55, 29)));
+        tglKembali.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        tglKembali.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tglKembaliMouseClicked(evt);
+            }
+        });
+        tglKembali.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tglKembaliActionPerformed(evt);
+            }
+        });
+        jPanel3.add(tglKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 160, 265, 40));
+
+        buttonTempo.setBackground(new java.awt.Color(82, 55, 29));
+        buttonTempo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gambarTambahBukuIcons/icons8-calendar-32.png"))); // NOI18N
+        buttonTempo.setFocusable(false);
+        buttonTempo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonTempoMouseClicked(evt);
+            }
+        });
+        jPanel3.add(buttonTempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 155, 60, 50));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 280));
 
@@ -227,16 +264,29 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void cariTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariTanggalActionPerformed
-        java.util.Date utilD1 = tglPinjam.getDatoFecha();
-        java.util.Date utilD2 = tglKembali.getDatoFecha();
+        SelectedDate utilD1 = datePinjam.getSelectedDate();
+        SelectedDate utilD2 = dateTempo.getSelectedDate();
         if (utilD1 == null || utilD2 == null) {
             JOptionPane.showMessageDialog(this,
                     "Pilih tanggal pinjam dan tanggal kembali terlebih dahulu");
             return;
         }
+        int tglP = utilD1.getDay();
+        int bulanP = utilD1.getMonth() - 1;
+        int tahunP = utilD1.getYear();
+        int tglK = utilD2.getDay();
+        int bulanK = utilD2.getMonth() - 1;
+        int tahunK = utilD2.getYear();
 
-        java.sql.Date sqlFrom = new java.sql.Date(utilD1.getTime());
-        java.sql.Date sqlTo = new java.sql.Date(utilD2.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(tahunP, bulanP, tglP);
+        java.util.Date utilDate1 = calendar.getTime();
+        Calendar cl = Calendar.getInstance();
+        cl.set(tahunK, bulanK, tglK);
+        java.util.Date utilDate2 = cl.getTime();
+
+        java.sql.Date sqlFrom = new java.sql.Date(utilDate1.getTime());
+        java.sql.Date sqlTo = new java.sql.Date(utilDate2.getTime());
 
         if (sqlTo.before(sqlFrom)) {
             JOptionPane.showMessageDialog(this,
@@ -246,6 +296,30 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
         }
         controller.loadTableByDate(sqlFrom, sqlTo);
     }//GEN-LAST:event_cariTanggalActionPerformed
+
+    private void tglPinjamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tglPinjamMouseClicked
+        datePinjam.showPopup();
+    }//GEN-LAST:event_tglPinjamMouseClicked
+
+    private void tglPinjamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tglPinjamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tglPinjamActionPerformed
+
+    private void buttonPinjamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPinjamMouseClicked
+        datePinjam.showPopup();
+    }//GEN-LAST:event_buttonPinjamMouseClicked
+
+    private void tglKembaliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tglKembaliMouseClicked
+        dateTempo.showPopup();
+    }//GEN-LAST:event_tglKembaliMouseClicked
+
+    private void tglKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tglKembaliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tglKembaliActionPerformed
+
+    private void buttonTempoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonTempoMouseClicked
+        dateTempo.showPopup();
+    }//GEN-LAST:event_buttonTempoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -283,7 +357,11 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonPinjam;
+    private javax.swing.JButton buttonTempo;
     private rojerusan.RSMaterialButtonCircle cariTanggal;
+    private com.raven.datechooser.DateChooser datePinjam;
+    private com.raven.datechooser.DateChooser dateTempo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -297,7 +375,7 @@ public class RekapPeminjamanView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private rojeru_san.complementos.RSTableMetro tbl_detailBuku;
-    private rojeru_san.componentes.RSDateChooser tglKembali;
-    private rojeru_san.componentes.RSDateChooser tglPinjam;
+    private app.bolivia.swing.JCTextField tglKembali;
+    private app.bolivia.swing.JCTextField tglPinjam;
     // End of variables declaration//GEN-END:variables
 }

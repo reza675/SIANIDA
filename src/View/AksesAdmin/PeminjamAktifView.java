@@ -102,7 +102,7 @@ public class PeminjamAktifView extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(136, 107, 70));
         jPanel2.setForeground(new java.awt.Color(136, 107, 70));
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, 490, 5));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 330, 5));
 
         tbl_Peggunaaktif.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,7 +156,8 @@ public class PeminjamAktifView extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1200, 720));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked

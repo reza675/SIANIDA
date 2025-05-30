@@ -387,10 +387,14 @@ public class ManajemenBukuView extends javax.swing.JFrame {
             bukuBaru.setJenisBuku(kategori);
 
             controller.addBuku(bukuBaru);
+            text_namabuku.setText("");
+            text_penulis.setText("");
+            text_jumlah.setText("");
+            text_kategori.setText("");
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
-                    "Format salah: " + ex.getMessage(),
+                    "Semua field wajib diisi dan sesuai dengan format",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tambahBukuActionPerformed

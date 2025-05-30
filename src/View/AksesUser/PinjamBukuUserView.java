@@ -4,7 +4,6 @@
  */
 package View.AksesUser;
 
-import View.AksesUser.HomePageUserView;
 import controller.PinjamBukuController;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -17,8 +16,6 @@ import javax.swing.table.TableModel;
 public class PinjamBukuUserView extends javax.swing.JFrame {
 
     private String username;
-    String namaBuku, penulis;
-    int idBuku, jumlah;
     DefaultTableModel model;
     private PinjamBukuController controller;
 
@@ -321,11 +318,35 @@ public class PinjamBukuUserView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pinjamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pinjamActionPerformed
-        int id = Integer.parseInt(text_idbuku.getText());
-        String nama = text_namabuku.getText();
-        String pen = text_penulis.getText();
-        int jml = Integer.parseInt(text_jumlah.getText());
+        String idText = text_idbuku.getText().trim();
+        String nama = text_namabuku.getText().trim();
+        String pen = text_penulis.getText().trim();
+        String jumlahText = text_jumlah.getText().trim();
+
+        if (idText.isEmpty() || nama.isEmpty() || pen.isEmpty() || jumlahText.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Semua field wajib diisi!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int id, jml;
+        try {
+            id = Integer.parseInt(idText);
+            jml = Integer.parseInt(jumlahText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Field ID dan Jumlah harus berupa angka!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         controller.pinjamBuku(id, nama, pen, jml);
+        text_idbuku.setText("");
+        text_namabuku.setText("");
+        text_penulis.setText("");
+        text_jumlah.setText("");
     }//GEN-LAST:event_pinjamActionPerformed
 
     private void text_jumlahFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_jumlahFocusLost

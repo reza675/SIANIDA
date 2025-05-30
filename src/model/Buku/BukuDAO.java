@@ -14,6 +14,7 @@ import java.util.List;
  * @author ASUS
  */
 public class BukuDAO implements InterfaceBukuDAO {
+
     //nampilin buku milik SIANIDA
     @Override
     public List<Buku> getAllBuku() {
@@ -45,6 +46,7 @@ public class BukuDAO implements InterfaceBukuDAO {
             return 0;
         }
     }
+
     //nampilin total rekap
     public int countAllRekap() throws SQLException {
         String sql = "SELECT COUNT(*) FROM laporanpengembalian";
@@ -55,6 +57,7 @@ public class BukuDAO implements InterfaceBukuDAO {
             return 0;
         }
     }
+
     //nampilin total peminjam aktif
     public int countAllPeminjam() throws SQLException {
         String sql = "SELECT COUNT(DISTINCT id) FROM peminjamanbuku";
@@ -73,72 +76,93 @@ public class BukuDAO implements InterfaceBukuDAO {
 
         String getIdUserSQL = "SELECT id FROM users WHERE namaPengguna = ?";
         String getBukuDetailSQL = "SELECT namaBuku, penulis, jumlah FROM detailbuku WHERE idBuku = ?";
-        String insertSQL = "INSERT INTO peminjamanbuku (id, idBuku, jumlah, total_pinjam, tgl_pinjam) VALUES (?, ?, ?, ?, NOW())";
+        String findLoanSQL = "SELECT idPeminjaman FROM peminjamanbuku WHERE id = ? AND idBuku = ? AND tgl_pengembalian IS NULL";
+        String updateLoanSQL = "UPDATE peminjamanbuku SET jumlah = jumlah + ?, total_pinjam = total_pinjam + ? WHERE idPeminjaman = ?";
+        String insertLoanSQL = "INSERT INTO peminjamanbuku (id, idBuku, jumlah, total_pinjam, tgl_pinjam) VALUES (?, ?, ?, ?, NOW())";
         String reduceStockSQL = "UPDATE detailbuku SET jumlah = jumlah - ? WHERE idBuku = ? AND jumlah >= ?";
 
         try (Connection con = DBConnection.getConnection()) {
-            int idUser = -1;
+            con.setAutoCommit(false);
 
-            // Ambil ID user
+            // 1. Ambil ID user
+            int idUser = -1;
             try (PreparedStatement ps = con.prepareStatement(getIdUserSQL)) {
                 ps.setString(1, username);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         idUser = rs.getInt("id");
                     } else {
-                        throw new SQLException("Username tidak ditemukan.");
+                        throw new SQLException("Username \"" + username + "\" tidak ditemukan.");
                     }
                 }
             }
 
-            // Ambil detail buku
-            String dbNamaBuku = null;
-            String dbPenulis = null;
+            // 2. Ambil detail buku (nama, penulis, stok) + validasi
+            String dbNama = null, dbPen = null;
             int stokTersedia = 0;
             try (PreparedStatement ps = con.prepareStatement(getBukuDetailSQL)) {
                 ps.setInt(1, idBuku);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        dbNamaBuku = rs.getString("namaBuku");
-                        dbPenulis = rs.getString("penulis");
+                        dbNama = rs.getString("namaBuku");
+                        dbPen = rs.getString("penulis");
                         stokTersedia = rs.getInt("jumlah");
                     } else {
-                        throw new SQLException("Buku tidak ditemukan.");
+                        throw new SQLException("Buku dengan ID " + idBuku + " tidak ditemukan.");
+                    }
+                }
+            }
+            if (!dbNama.equalsIgnoreCase(namaBuku.trim())
+                    || !dbPen.equalsIgnoreCase(penulis.trim())) {
+                throw new SQLException("Nama buku atau penulis tidak sesuai dengan ID Buku.");
+            }
+            if (stokTersedia < jumlah) {
+                throw new SQLException("Stok tidak mencukupi. Stok tersedia: " + stokTersedia);
+            }
+
+            // 3. Cek ada peminjaman aktif?
+            Integer existingLoanId = null;
+            try (PreparedStatement ps = con.prepareStatement(findLoanSQL)) {
+                ps.setInt(1, idUser);
+                ps.setInt(2, idBuku);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        existingLoanId = rs.getInt("idPeminjaman");
                     }
                 }
             }
 
-            // Validasi nama dan penulis
-            if (!dbNamaBuku.equalsIgnoreCase(namaBuku.trim()) || !dbPenulis.equalsIgnoreCase(penulis.trim())) {
-                throw new SQLException("Nama buku atau penulis tidak sesuai dengan ID Buku.");
+            // 4. Update atau Insert
+            if (existingLoanId != null) {
+                try (PreparedStatement ps = con.prepareStatement(updateLoanSQL)) {
+                    ps.setInt(1, jumlah);
+                    ps.setInt(2, jumlah);
+                    ps.setInt(3, existingLoanId);
+                    ps.executeUpdate();
+                }
+            } else {
+                try (PreparedStatement ps = con.prepareStatement(insertLoanSQL)) {
+                    ps.setInt(1, idUser);
+                    ps.setInt(2, idBuku);
+                    ps.setInt(3, jumlah);
+                    ps.setInt(4, jumlah);
+                    ps.executeUpdate();
+                }
             }
 
-            // Cek stok
-            if (stokTersedia < jumlah) {
-                throw new SQLException("Stok tidak mencukupi untuk peminjaman. Stok tersedia: " + stokTersedia);
-            }
-
-            // Simpan peminjaman
-            try (PreparedStatement ps = con.prepareStatement(insertSQL)) {
-                ps.setInt(1, idUser);
-                ps.setInt(2, idBuku);
-                ps.setInt(3, jumlah);
-                ps.setInt(4, jumlah);
-                ps.executeUpdate();
-            }
-
-            // Kurangi stok
+            // 5. Kurangi stok buku
             try (PreparedStatement ps = con.prepareStatement(reduceStockSQL)) {
                 ps.setInt(1, jumlah);
                 ps.setInt(2, idBuku);
                 ps.setInt(3, jumlah);
-                int rowsUpdated = ps.executeUpdate();
-                if (rowsUpdated == 0) {
+                int updated = ps.executeUpdate();
+                if (updated == 0) {
                     con.rollback();
-                    throw new SQLException("Gagal mengurangi stok. Mungkin stok sudah tidak cukup karena transaksi lain.");
+                    throw new SQLException("Gagal mengurangi stok. Stok mungkin sudah habis.");
                 }
             }
 
+            con.commit();
         } catch (SQLException ex) {
             throw ex;
         }
@@ -417,5 +441,5 @@ public class BukuDAO implements InterfaceBukuDAO {
         }
         return list;
     }
-   
+
 }

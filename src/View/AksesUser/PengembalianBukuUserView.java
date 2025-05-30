@@ -15,23 +15,29 @@ import javax.swing.table.TableModel;
  * @author ASUS
  */
 public class PengembalianBukuUserView extends javax.swing.JFrame {
+
     private String username;
     private PengembalianBukuController controller;
+
     public PengembalianBukuUserView(String username) {
         this.username = username;
         initComponents();
         controller = new PengembalianBukuController(this, username);
         controller.loadTable();
     }
+
     public DefaultTableModel getTblModel() {
         return (DefaultTableModel) tbl_detailBuku.getModel();
     }
+
     public void showError(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -345,11 +351,35 @@ public class PengembalianBukuUserView extends javax.swing.JFrame {
     }//GEN-LAST:event_text_jumlahFocusLost
 
     private void kembalikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembalikanActionPerformed
-        int id = Integer.parseInt(text_idbuku.getText());
-        String nama = text_namabuku.getText();
-        String pen = text_penulis.getText();
-        int jml = Integer.parseInt(text_jumlah.getText());
+        String idText = text_idbuku.getText().trim();
+        String nama = text_namabuku.getText().trim();
+        String pen = text_penulis.getText().trim();
+        String jumlahText = text_jumlah.getText().trim();
+
+        if (idText.isEmpty() || nama.isEmpty() || pen.isEmpty() || jumlahText.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Semua field wajib diisi!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int id, jml;
+        try {
+            id = Integer.parseInt(idText);
+            jml = Integer.parseInt(jumlahText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Field ID dan Jumlah harus berupa angka!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         controller.pengembalianBuku(id, nama, pen, jml);
+        text_idbuku.setText("");
+        text_namabuku.setText("");
+        text_penulis.setText("");
+        text_jumlah.setText("");
     }//GEN-LAST:event_kembalikanActionPerformed
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
