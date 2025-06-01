@@ -64,7 +64,7 @@ public class LupaPasswordController {
 
     public boolean sendOTP(String email) {
         try {
-            // 1. Hapus & simpan token baru
+            // ngehapus & nyimpen token baru
             otpDAO.deleteByEmail(email);
             String token = String.format("%06d", new Random().nextInt(999999));
             Timestamp expiry = new Timestamp(System.currentTimeMillis() + 5 * 60 * 1000);
@@ -74,12 +74,12 @@ public class LupaPasswordController {
             otp.setExpiry(expiry);
             otpDAO.insert(otp);
 
-            // 2. Kirim email
+            // ngirim email
             EmailUtil.sendOTPEmail(FROM_EMAIL, EMAIL_PWD, email, token);
 
-            // 3. Verifikasi input user via dialog
+            // verifikasi keknya
             String userInput = JOptionPane.showInputDialog(
-                    null, "Masukkan 6 digit OTP:", "Verifikasi OTP", JOptionPane.PLAIN_MESSAGE);
+                    null, " Masukkan 6 digit OTP:", "Verifikasi OTP", JOptionPane.PLAIN_MESSAGE);
             if (userInput != null && otpDAO.verify(email, userInput)) {
                 view.setVisible(true);
                 return true;

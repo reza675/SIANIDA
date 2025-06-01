@@ -43,7 +43,7 @@ public class ManajemenBukuController {
             boolean sukses = dao.edit(bukuTerpilih);
             if (sukses) {
                 view.showMessage("Data buku berhasil di-update.");
-                loadTable();   // reload data tabel agar perubahan langsung terlihat
+                loadTable();   
             } else {
                 view.showError("Gagal meng-update data buku.");
             }

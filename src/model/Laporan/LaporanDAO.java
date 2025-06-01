@@ -13,8 +13,9 @@ import java.sql.*;
  *
  * @author ASUS
  */
-public class LaporanDAO {
+public class LaporanDAO implements InterfaceLaporanDAO {
 
+    @Override
     public List<Laporan> getBukuAdmin() {
         List<Laporan> list = new ArrayList<>();
         String sql = "SELECT lp.idLaporan,db.namaBuku,u.namaPengguna,lp.tglPinjam,lp.tglKembali,lp.pengembalian FROM laporanpengembalian lp JOIN detailbuku db ON lp.idBuku = db.idBuku JOIN users u ON lp.id = u.id";
@@ -37,6 +38,7 @@ public class LaporanDAO {
         return list;
     }
 
+    @Override
     public List<Laporan> getByDateRange(Date fromDate, Date toDate) throws SQLException {
         String sql = "SELECT lp.idLaporan, db.namaBuku, u.namaPengguna, lp.tglPinjam, lp.tglKembali, lp.pengembalian FROM laporanpengembalian lp JOIN detailbuku db ON lp.idBuku  = db.idBuku JOIN users u ON lp.id = u.id WHERE lp.tglPinjam BETWEEN ? AND ?";
         List<Laporan> list = new ArrayList<>();
@@ -58,6 +60,7 @@ public class LaporanDAO {
         }
         return list;
     }
+    @Override
     public List<Laporan> getByPending(Date fromDate, Date toDate) throws SQLException {
         List<Laporan> list = new ArrayList<>();
         String sql = "SELECT lp.idLaporan, db.namaBuku, u.namaPengguna, lp.tglPinjam, lp.tglKembali, lp.pengembalian FROM laporanpengembalian lp JOIN detailbuku db ON lp.idBuku  = db.idBuku JOIN users u ON lp.id = u.id WHERE lp.tglPinjam BETWEEN ? AND ?";

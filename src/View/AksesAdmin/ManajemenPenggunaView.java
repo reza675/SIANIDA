@@ -39,6 +39,7 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
     public void showError(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
     public void showWarning(String msg, String title) {
         JOptionPane.showMessageDialog(this, msg, title, JOptionPane.WARNING_MESSAGE);
     }
@@ -370,7 +371,7 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
             String password = "user123";
             int role = 2;
 
-            User userBaru = new User(idBaru, namaBaru, password, Email, Telepon,role);
+            User userBaru = new User(idBaru, namaBaru, password, Email, Telepon, role);
             userBaru.setidUser(idBaru);
             userBaru.setNamaPengguna(namaBaru);
             userBaru.setPasswordPengguna(password);
@@ -379,6 +380,10 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
             userBaru.setIdRole(role);
 
             controller.addUser(userBaru);
+            text_idUser.setText("");
+            text_Nama.setText("");
+            text_Email.setText("");
+            text_Telp.setText("");
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
@@ -405,6 +410,10 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
             UserTerpilih.setNomorTelepon(Telepon);
 
             controller.editUser(UserTerpilih);
+            text_idUser.setText("");
+            text_Nama.setText("");
+            text_Email.setText("");
+            text_Telp.setText("");
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this,
@@ -442,6 +451,10 @@ public class ManajemenPenggunaView extends javax.swing.JFrame {
         }
 
         controller.deleteUser(UserForm);
+        text_idUser.setText("");
+        text_Nama.setText("");
+        text_Email.setText("");
+        text_Telp.setText("");
     }//GEN-LAST:event_HapusUserActionPerformed
 
     private void text_NamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_NamaActionPerformed

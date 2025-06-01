@@ -7,8 +7,7 @@ package View.LoginRegister;
 import javax.swing.JOptionPane;
 import Controller.LoginController;
 import Model.User.UserDAO;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+
 
 
 /**^
@@ -35,9 +34,6 @@ public class LoginPageView extends javax.swing.JFrame {
         return new String(text_password.getPassword());
     }
 
-    // Methods to register listeners
-
-    // Display message methods
     public void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }

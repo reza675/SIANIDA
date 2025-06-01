@@ -36,9 +36,10 @@ public class HomePageUserController {
         DefaultTableModel tableModel = (DefaultTableModel) view.getTblModel();
         tableModel.setRowCount(0);
         List<Buku> list = dao.getAllBuku();
+        int no = 1;
         for (Buku bm : list) {
             Object[] row = {
-                bm.getIdBuku(), bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah(), bm.getJenisBuku()
+                no++, bm.getNamaBuku(), bm.getPenulis(), bm.getJumlah(), bm.getJenisBuku()
             };
             tableModel.addRow(row);
         }

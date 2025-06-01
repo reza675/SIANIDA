@@ -6,8 +6,7 @@ package View.LoginRegister;
 
 import Controller.LupaPasswordController;
 import Model.User.UserDAO;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+
 import javax.swing.JOptionPane;
 
 /**

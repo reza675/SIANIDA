@@ -84,7 +84,7 @@ public class BukuDAO implements InterfaceBukuDAO {
         try (Connection con = DBConnection.getConnection()) {
             con.setAutoCommit(false);
 
-            // 1. Ambil ID user
+            // ambil ID user
             int idUser = -1;
             try (PreparedStatement ps = con.prepareStatement(getIdUserSQL)) {
                 ps.setString(1, username);
@@ -97,7 +97,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // 2. Ambil detail buku (nama, penulis, stok) + validasi
+            // ambil detail buku (nama, penulis, stok) + validasi
             String dbNama = null, dbPen = null;
             int stokTersedia = 0;
             try (PreparedStatement ps = con.prepareStatement(getBukuDetailSQL)) {
@@ -120,7 +120,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 throw new SQLException("Stok tidak mencukupi. Stok tersedia: " + stokTersedia);
             }
 
-            // 3. Cek ada peminjaman aktif?
+            // ngecek ada peminjamanan yg sama ato ga
             Integer existingLoanId = null;
             try (PreparedStatement ps = con.prepareStatement(findLoanSQL)) {
                 ps.setInt(1, idUser);
@@ -132,7 +132,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // 4. Update atau Insert
+            // update klo ga Insert
             if (existingLoanId != null) {
                 try (PreparedStatement ps = con.prepareStatement(updateLoanSQL)) {
                     ps.setInt(1, jumlah);
@@ -150,7 +150,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // 5. Kurangi stok buku
+            // mengurangi stok buku
             try (PreparedStatement ps = con.prepareStatement(reduceStockSQL)) {
                 ps.setInt(1, jumlah);
                 ps.setInt(2, idBuku);
@@ -176,7 +176,7 @@ public class BukuDAO implements InterfaceBukuDAO {
         String sql = "SELECT b.idBuku, b.namaBuku, b.penulis, p.jumlah AS jumlahPinjam, b.kategori, p.tgl_pinjam AS tglPinjam, p.tgl_kembali AS tglKembali, p.tgl_pengembalian AS tglPengembalian FROM peminjamanbuku p JOIN detailbuku b ON p.idBuku = b.idBuku WHERE p.id = ?";
 
         try (Connection con = DBConnection.getConnection()) {
-            // 1) Cari idUser
+            // nyari idUser
             int idUser;
             try (PreparedStatement ps1 = con.prepareStatement(getIdUserSQL)) {
                 ps1.setString(1, username);
@@ -189,7 +189,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // 2) Ambil semua buku yang dipinjam user tersebut
+            // ngambil kabeh buku sek dijilih user
             try (PreparedStatement ps2 = con.prepareStatement(sql)) {
                 ps2.setInt(1, idUser);
                 try (ResultSet rs2 = ps2.executeQuery()) {
@@ -209,7 +209,6 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
         } catch (SQLException ex) {
-            // kalau perlu, ganti dengan view.showError(...) atau logging
             ex.printStackTrace();
         }
 
@@ -240,7 +239,7 @@ public class BukuDAO implements InterfaceBukuDAO {
             }
         }
     }
-
+    
     // Mengembalikan buku
     public void returnBook(String username, int idBuku, String nama, String penulis, int jumlahKembali) throws SQLException {
         if (jumlahKembali <= 0) {
@@ -259,7 +258,7 @@ public class BukuDAO implements InterfaceBukuDAO {
         try (Connection con = DBConnection.getConnection()) {
             int idUser;
 
-            // Ambil ID user
+            // jipuk ID user
             try (PreparedStatement ps = con.prepareStatement(sqlGetUser)) {
                 ps.setString(1, username);
                 try (ResultSet rs = ps.executeQuery()) {
@@ -270,7 +269,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // Ambil data buku (untuk validasi nama dan penulis)
+            // jipuk data buku buat validasi sir
             String dbNamaBuku = null;
             String dbPenulis = null;
             try (PreparedStatement ps = con.prepareStatement(sqlGetBuku)) {
@@ -285,12 +284,11 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // Validasi nama dan penulis
             if (!dbNamaBuku.equalsIgnoreCase(nama.trim()) || !dbPenulis.equalsIgnoreCase(penulis.trim())) {
                 throw new SQLException("Nama buku atau penulis tidak sesuai dengan ID Buku.");
             }
 
-            // Ambil sisa pinjam + total pinjam + tanggal
+            // ambil sisa pinjam + total pinjam + tanggal
             int sisaPinjam, totalPinjamAwal;
             Date tglPinjam, tglKembali;
             try (PreparedStatement ps = con.prepareStatement(sqlGetLoan)) {
@@ -307,12 +305,12 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // Validasi jumlah pengembalian
+            // validasi jumlah pengembalian
             if (jumlahKembali > sisaPinjam) {
                 throw new SQLException("Anda hanya meminjam " + sisaPinjam + " buku.");
             }
 
-            // Partial vs Full return
+            // sebagian vs semua pengembalian
             if (jumlahKembali < sisaPinjam) {
                 try (PreparedStatement ps = con.prepareStatement(sqlPartialReturn)) {
                     ps.setInt(1, jumlahKembali);
@@ -333,7 +331,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 }
             }
 
-            // Insert laporan
+            // nginsert laporan
             try (PreparedStatement ps = con.prepareStatement(sqlInsertLaporan)) {
                 ps.setInt(1, idUser);
                 ps.setInt(2, idBuku);
@@ -343,7 +341,7 @@ public class BukuDAO implements InterfaceBukuDAO {
                 ps.executeUpdate();
             }
 
-            // Tambah stok
+            // nambah stok
             try (PreparedStatement ps = con.prepareStatement(sqlAddStock)) {
                 ps.setInt(1, jumlahKembali);
                 ps.setInt(2, idBuku);

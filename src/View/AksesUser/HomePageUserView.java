@@ -377,7 +377,7 @@ public class HomePageUserView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nama Buku", "Penulis", "Jumlah", "Kategori"
+                "No", "Nama Buku", "Penulis", "Jumlah", "Kategori"
             }
         ));
         detailSianida.setColorBackgoundHead(new java.awt.Color(162, 132, 94));
