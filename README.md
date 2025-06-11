@@ -1,5 +1,4 @@
-# SIANIDA
-## Sistem Informasi Andalan Dunia Literasi
+# SIANIDA (Sistem Informasi Andalan Dunia Literasi)
 
 ## Praktikum PBO (IF-B)
 ## Nama Kelompok:
